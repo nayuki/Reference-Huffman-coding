@@ -10,7 +10,7 @@ import java.io.OutputStream;
 import java.util.Arrays;
 
 
-public class HuffmanDecompress {
+public class AdaptiveHuffmanDecompress {
 	
 	public static void main(String[] args) throws IOException {
 		if (args.length == 0) {
@@ -24,8 +24,7 @@ public class HuffmanDecompress {
 		BitInputStream in = new BitInputStream(new BufferedInputStream(new FileInputStream(inputFile)));
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
 		try {
-			CodeTree code = readCodebook(in);
-			decompress(in, out, code);
+			decompress(in, out);
 		} finally {
 			out.close();
 			in.close();
@@ -33,26 +32,14 @@ public class HuffmanDecompress {
 	}
 	
 	
-	private static CodeTree readCodebook(BitInputStream in) throws IOException {
-		int[] codeLengths = new int[257];
-		Arrays.fill(codeLengths, -1);
+	private static void decompress(BitInputStream in, OutputStream out) throws IOException {
+		int[] initFreqs = new int[257];
+		Arrays.fill(initFreqs, 1);
 		
-		for (int i = 0; i < codeLengths.length; i++) {
-			// For this file format, we read 8 bits in big endian
-			int val = 0;
-			for (int j = 0; j < 8; j++) {
-				int temp = in.readNoEof();
-				val = val << 1 | temp;
-			}
-			codeLengths[i] = val;
-		}
-		
-		return new CanonicalCode(codeLengths).toCodeTree();
-	}
-	
-	
-	private static void decompress(BitInputStream in, OutputStream out, CodeTree code) throws IOException {
+		FrequencyTable freqTable = new FrequencyTable(initFreqs);
+		CodeTree code = freqTable.buildCodeTree();
 		InternalNode currentNode = code.root;
+		int count = 0;
 		while (true) {
 			int temp = in.readNoEof();
 			Node nextNode;
@@ -64,7 +51,14 @@ public class HuffmanDecompress {
 				int symbol = ((Leaf)nextNode).symbol;
 				if (symbol == 256)  // EOF symbol
 					break;
+				
 				out.write(symbol);
+				freqTable.increment(symbol);
+				count++;
+				if (count % 65536 == 0) {
+					code = freqTable.buildCodeTree();
+					freqTable = new FrequencyTable(initFreqs);
+				}
 				currentNode = code.root;
 			} else if (nextNode instanceof InternalNode) {
 				currentNode = (InternalNode)nextNode;

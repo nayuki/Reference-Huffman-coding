@@ -1,6 +1,9 @@
 package nayuki.huffmancoding;
 
 
+/**
+ * A leaf node in a code tree. It has a symbol value. Immutable.
+ */
 public final class Leaf extends Node {
 	
 	public final int symbol;

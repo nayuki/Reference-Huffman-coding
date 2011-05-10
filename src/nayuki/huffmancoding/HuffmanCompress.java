@@ -16,15 +16,17 @@ public class HuffmanCompress {
 		if (args.length == 0) {
 			System.err.println("Usage: java HuffmanCompress [inputFile] [outputFile]");
 			System.exit(1);
+			return;
 		}
 		
 		File inputFile = new File(args[0]);
+		File outputFile = new File(args[1]);
+		
 		FrequencyTable freqs = buildFrequencyTable(inputFile);
 		CodeTree code = freqs.buildCodeTree();
 		CanonicalCode canonCode = new CanonicalCode(code, 257);
 		code = canonCode.toCodeTree();
 		
-		File outputFile = new File(args[1]);
 		InputStream in = new BufferedInputStream(new FileInputStream(inputFile));
 		BitOutputStream out = new BitOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile)));
 		try {
@@ -38,22 +40,20 @@ public class HuffmanCompress {
 	
 	
 	private static FrequencyTable buildFrequencyTable(File file) throws IOException {
+		FrequencyTable freq = new FrequencyTable(new int[257]);
+		freq.increment(256);  // EOF symbol gets a frequency of 1
 		InputStream input = new BufferedInputStream(new FileInputStream(file));
-		int[] freqs = new int[257];
-		freqs[256]++;  // EOF symbol gets a frequency of 1
 		try {
 			while (true) {
-				int temp = input.read();
-				if (temp == -1)
+				int b = input.read();
+				if (b == -1)
 					break;
-				if (freqs[temp] == Integer.MAX_VALUE)
-					throw new RuntimeException("Arithmetic overflow");
-				freqs[temp]++;
+				freq.increment(b);
 			}
 		} finally {
 			input.close();
 		}
-		return new FrequencyTable(freqs);
+		return freq;
 	}
 	
 	
@@ -76,16 +76,16 @@ public class HuffmanCompress {
 	
 	private static void compress(InputStream in, BitOutputStream out, CodeTree code) throws IOException {
 		while (true) {
-			int temp = in.read();
-			if (temp == -1)
+			int b = in.read();
+			if (b == -1)
 				break;
-			writeSymbol(temp, out, code);
+			encodeAndWrite(b, out, code);
 		}
-		writeSymbol(256, out, code);  // EOF
+		encodeAndWrite(256, out, code);  // EOF
 	}
 	
 	
-	private static void writeSymbol(int symbol, BitOutputStream out, CodeTree code) throws IOException {
+	private static void encodeAndWrite(int symbol, BitOutputStream out, CodeTree code) throws IOException {
 		List<Integer> bits = code.getCode(symbol);
 		for (int b : bits)
 			out.write(b);

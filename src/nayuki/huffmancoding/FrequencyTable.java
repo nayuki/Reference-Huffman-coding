@@ -4,6 +4,9 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 
+/**
+ * A table of symbol frequencies. Mutable.
+ */
 public final class FrequencyTable {
 	
 	private int[] frequencies;
@@ -27,10 +30,26 @@ public final class FrequencyTable {
 	}
 	
 	
-	public int getFrequency(int symbol) {
+	public int get(int symbol) {
 		if (symbol < 0 || symbol >= frequencies.length)
 			throw new IllegalArgumentException("Symbol out of range");
 		return frequencies[symbol];
+	}
+	
+	
+	public void set(int symbol, int freq) {
+		if (symbol < 0 || symbol >= frequencies.length)
+			throw new IllegalArgumentException("Symbol out of range");
+		frequencies[symbol] = freq;
+	}
+	
+	
+	public void increment(int symbol) {
+		if (symbol < 0 || symbol >= frequencies.length)
+			throw new IllegalArgumentException("Symbol out of range");
+		if (frequencies[symbol] == Integer.MAX_VALUE)
+			throw new RuntimeException("Arithmetic overflow");
+		frequencies[symbol]++;
 	}
 	
 	
@@ -58,7 +77,7 @@ public final class FrequencyTable {
 		}
 		assert pqueue.size() >= 2;
 		
-		// Repeatedly tie together two nodes with the highest frequency
+		// Repeatedly tie together two nodes with the lowest frequency
 		while (pqueue.size() > 1) {
 			NodeWithFrequency nf1 = pqueue.remove();
 			NodeWithFrequency nf2 = pqueue.remove();
@@ -69,7 +88,7 @@ public final class FrequencyTable {
 		}
 		
 		// Return the remaining node
-		return new CodeTree(pqueue.remove().node, frequencies.length);
+		return new CodeTree((InternalNode)pqueue.remove().node, frequencies.length);
 	}
 	
 	

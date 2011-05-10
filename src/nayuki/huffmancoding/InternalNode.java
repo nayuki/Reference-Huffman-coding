@@ -1,6 +1,9 @@
 package nayuki.huffmancoding;
 
 
+/**
+ * An internal node in a code tree. It has two nodes as children. Immutable.
+ */
 public final class InternalNode extends Node {
 	
 	public final Node leftChild;

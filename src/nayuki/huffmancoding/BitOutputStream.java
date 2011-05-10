@@ -4,13 +4,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 
+/**
+ * A stream where bits can be written to.
+ */
 public final class BitOutputStream {
 	
 	private OutputStream output;
 	
-	private int currentByte;
+	private int currentByte;  // Always in the range 0x00 to 0xFF
 	
-	private int numBitsInCurrentByte;
+	private int numBitsInCurrentByte;  // Always between 0 and 7, inclusive
 	
 	
 	
@@ -24,6 +27,7 @@ public final class BitOutputStream {
 	
 	
 	
+	// Writes a bit to the stream. The specified bit must be 0 or 1.
 	public void write(int b) throws IOException {
 		if (!(b == 0 || b == 1))
 			throw new IllegalArgumentException("Argument must be 0 or 1");
@@ -36,6 +40,7 @@ public final class BitOutputStream {
 	}
 	
 	
+	// Closes this stream and the underlying OutputStream. If this is called when the bit stream is not at a byte boundary, then the minimum number of zeros are written as padding to reach a byte boundary.
 	public void close() throws IOException {
 		while (numBitsInCurrentByte != 0)
 			write(0);  // Pad with zeros until next byte boundary

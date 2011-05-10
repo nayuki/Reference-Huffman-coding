@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * A tree of Huffman codes. Immutable.
+ */
 public class CodeTree {
 	
-	public final Node root;
+	public final InternalNode root;
 	
 	private List<List<Integer>> codes;
 	
 	
 	
-	public CodeTree(Node root, int symbolLimit) {
+	public CodeTree(InternalNode root, int symbolLimit) {
 		if (root == null)
 			throw new NullPointerException("Argument is null");
-		if (root instanceof Leaf)
-			throw new IllegalArgumentException("Root must not be a leaf");
 		
 		this.root = root;
 		
