@@ -23,7 +23,7 @@ import java.util.List;
  *     Symbol D: 10
  *     Symbol E: 111
  */
-public class CanonicalCode {
+public final class CanonicalCode {
 	
 	private int[] codeLengths;
 	

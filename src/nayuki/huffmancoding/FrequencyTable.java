@@ -7,6 +7,12 @@ import java.util.Queue;
 /**
  * A table of symbol frequencies. Mutable.
  */
+/*
+ * A FrequencyTable is mainly used like this:
+ * - Collect the frequencies of symbols in the stream that we want to compress.
+ * - Build a code tree that is statically optimal for the current frequencies.
+ * This implementation correctly builds an optimal code tree for any legal number of symbols (2 to Integer.MAX_VALUE), with each symbol having a legal frequency (0 to Integer.MAX_VALUE). It is designed not to err due to overflow.
+ */
 public final class FrequencyTable {
 	
 	private int[] frequencies;

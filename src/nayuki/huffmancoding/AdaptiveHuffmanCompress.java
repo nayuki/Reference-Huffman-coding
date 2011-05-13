@@ -50,10 +50,10 @@ public final class AdaptiveHuffmanCompress {
 			encodeAndWrite(code, b, out);
 			freqTable.increment(b);
 			count++;
-			if (count % 65536 == 0) {  // Occasionally rebuild the code tree based on recent statistics
+			if (count < 262144 && isPowerOf2(count) || count % 262144 == 0)  // Update code tree
 				code = freqTable.buildCodeTree();
+			if (count % 262144 == 0)  // Reset frequency table
 				freqTable = new FrequencyTable(initFreqs);
-			}
 		}
 		encodeAndWrite(code, 256, out);  // EOF
 	}
@@ -63,6 +63,11 @@ public final class AdaptiveHuffmanCompress {
 		List<Integer> bits = code.getCode(symbol);
 		for (int b : bits)
 			out.write(b);
+	}
+	
+	
+	private static boolean isPowerOf2(int x) {
+		return x > 0 && (x & -x) == x;
 	}
 	
 }

@@ -13,8 +13,8 @@ import java.util.Random;
 import org.junit.Test;
 
 
-// Tests AdaptiveHuffmanCompress coupled with AdaptiveHuffmanDecompress.
-public class AdaptiveHuffmanTest {
+// Tests HuffmanCompress coupled with HuffmanDecompress.
+public class HuffmanTest {
 	
 	@Test
 	public void testEmpty() {
@@ -44,9 +44,25 @@ public class AdaptiveHuffmanTest {
 	
 	
 	@Test
+	public void testFibonacciFrequencies() {
+		byte[] b = new byte[87];
+		int i = 0;
+		for (int j = 0; j <  1; j++, i++) b[i] = 0;
+		for (int j = 0; j <  2; j++, i++) b[i] = 1;
+		for (int j = 0; j <  3; j++, i++) b[i] = 2;
+		for (int j = 0; j <  5; j++, i++) b[i] = 3;
+		for (int j = 0; j <  8; j++, i++) b[i] = 4;
+		for (int j = 0; j < 13; j++, i++) b[i] = 5;
+		for (int j = 0; j < 21; j++, i++) b[i] = 6;
+		for (int j = 0; j < 34; j++, i++) b[i] = 7;
+		test(b);
+	}
+	
+	
+	@Test
 	public void testRandom() {
-		for (int i = 0; i < 3; i++) {
-			byte[] b = new byte[random.nextInt(1000000)];
+		for (int i = 0; i < 100; i++) {
+			byte[] b = new byte[random.nextInt(1000)];
 			random.nextBytes(b);
 			test(b);
 		}
@@ -59,16 +75,18 @@ public class AdaptiveHuffmanTest {
 	
 	private static void test(byte[] b) {
 		try {
+			CodeTree code = makeCode(b);
+			
 			InputStream original = new ByteArrayInputStream(b);
 			ByteArrayOutputStream compressedOut = new ByteArrayOutputStream();
 			BitOutputStream compressedOutBit = new BitOutputStream(compressedOut);
-			AdaptiveHuffmanCompress.compress(original, compressedOutBit);
+			HuffmanCompress.compress(code, original, compressedOutBit);
 			compressedOutBit.close();
 			
 			InputStream compressedIn = new ByteArrayInputStream(compressedOut.toByteArray());
 			BitInputStream compressedInBit = new BitInputStream(compressedIn);
 			ByteArrayOutputStream decompressed = new ByteArrayOutputStream();
-			AdaptiveHuffmanDecompress.decompress(compressedInBit, decompressed);
+			HuffmanDecompress.decompress(code, compressedInBit, decompressed);
 			
 			assertArrayEquals(b, decompressed.toByteArray());
 		} catch (EOFException e) {
@@ -76,6 +94,18 @@ public class AdaptiveHuffmanTest {
 		} catch (IOException e) {
 			throw new AssertionError(e);
 		}
+	}
+	
+	
+	// Makes the canonical optimal static code for the given bytes
+	private static CodeTree makeCode(byte[] b) {
+		FrequencyTable freq = new FrequencyTable(new int[257]);
+		freq.increment(256);  // EOF symbol
+		for (byte x : b)
+			freq.increment(x & 0xFF);
+		CodeTree code = freq.buildCodeTree();
+		CanonicalCode canonCode = new CanonicalCode(code, 257);
+		return canonCode.toCodeTree();
 	}
 	
 }

@@ -52,7 +52,7 @@ public final class HuffmanDecompress {
 	}
 	
 	
-	private static void decompress(CodeTree code, BitInputStream in, OutputStream out) throws IOException {
+	static void decompress(CodeTree code, BitInputStream in, OutputStream out) throws IOException {
 		InternalNode currentNode = code.root;
 		while (true) {
 			int temp = in.readNoEof();

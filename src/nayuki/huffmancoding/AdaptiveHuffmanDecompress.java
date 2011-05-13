@@ -58,10 +58,10 @@ public final class AdaptiveHuffmanDecompress {
 				
 				freqTable.increment(symbol);
 				count++;
-				if (count % 65536 == 0) {  // Update code tree
+				if (count < 262144 && isPowerOf2(count) || count % 262144 == 0)  // Update code tree
 					code = freqTable.buildCodeTree();
+				if (count % 262144 == 0)  // Reset frequency table
 					freqTable = new FrequencyTable(initFreqs);
-				}
 				currentNode = code.root;
 			} else if (nextNode instanceof InternalNode) {
 				currentNode = (InternalNode)nextNode;
@@ -69,6 +69,11 @@ public final class AdaptiveHuffmanDecompress {
 				throw new AssertionError();
 			}
 		}
+	}
+	
+	
+	private static boolean isPowerOf2(int x) {
+		return x > 0 && (x & -x) == x;
 	}
 	
 }

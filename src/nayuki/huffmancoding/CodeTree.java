@@ -33,7 +33,7 @@ import java.util.List;
  *          / \
  *         C   D
  */
-public class CodeTree {
+public final class CodeTree {
 	
 	public final InternalNode root;  // Not null
 	
