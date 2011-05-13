@@ -16,7 +16,9 @@ public final class FrequencyTable {
 	public FrequencyTable(int[] freqs) {
 		if (freqs == null)
 			throw new NullPointerException("Argument is null");
-		frequencies = freqs.clone();
+		if (freqs.length < 2)
+			throw new IllegalArgumentException("At least 2 symbols needed");
+		frequencies = freqs.clone();  // Defensive copy
 		for (int x : frequencies) {
 			if (x < 0)
 				throw new IllegalArgumentException("Negative frequency");
@@ -53,6 +55,7 @@ public final class FrequencyTable {
 	}
 	
 	
+	// Returns a string showing all the symbols and frequencies. The format is subject to change. Useful for debugging.
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < frequencies.length; i++)
@@ -61,17 +64,19 @@ public final class FrequencyTable {
 	}
 	
 	
+	// Returns a code tree that is optimal for these frequencies. Always contains at least 2 symbols, to avoid degenerate trees.
 	public CodeTree buildCodeTree() {
+		// Note that if two nodes have the same frequency, then the tie is broken by which tree contains the lowest symbol. Thus the algorithm is not dependent on how the queue breaks ties.
 		Queue<NodeWithFrequency> pqueue = new PriorityQueue<NodeWithFrequency>();
 		
-		// Add symbol leaves with non-zero frequency
+		// Add leaves for symbols with non-zero frequency
 		for (int i = 0; i < frequencies.length; i++) {
 			if (frequencies[i] > 0)
 				pqueue.add(new NodeWithFrequency(new Leaf(i), i, frequencies[i]));
 		}
 		
 		// Pad with zero-frequency symbols until queue has at least 2 items
-		for (int i = 0; pqueue.size() < 2 && i < Math.max(frequencies.length, 2); i++) {
+		for (int i = 0; i < frequencies.length && pqueue.size() < 2; i++) {
 			if (i >= frequencies.length || frequencies[i] == 0)
 				pqueue.add(new NodeWithFrequency(new Leaf(i), i, 0));
 		}
@@ -99,7 +104,7 @@ public final class FrequencyTable {
 		
 		public final int lowestSymbol;
 		
-		public final long frequency;
+		public final long frequency;  // Using long prevents overflow
 		
 		
 		public NodeWithFrequency(Node node, int lowestSymbol, long freq) {

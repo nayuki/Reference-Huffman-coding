@@ -10,17 +10,20 @@ import java.io.OutputStream;
 import java.util.Arrays;
 
 
-public class AdaptiveHuffmanDecompress {
+public final class AdaptiveHuffmanDecompress {
 	
 	public static void main(String[] args) throws IOException {
+		// Show what command line arguments to use
 		if (args.length == 0) {
-			System.err.println("Usage: java HuffmanDecompress [inputFile] [outputFile]");
+			System.err.println("Usage: java AdaptiveHuffmanDecompress InputFile OutputFile");
 			System.exit(1);
 			return;
 		}
 		
+		// Otherwise, decompress
 		File inputFile = new File(args[0]);
 		File outputFile = new File(args[1]);
+		
 		BitInputStream in = new BitInputStream(new BufferedInputStream(new FileInputStream(inputFile)));
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
 		try {
@@ -51,11 +54,11 @@ public class AdaptiveHuffmanDecompress {
 				int symbol = ((Leaf)nextNode).symbol;
 				if (symbol == 256)  // EOF symbol
 					break;
-				
 				out.write(symbol);
+				
 				freqTable.increment(symbol);
 				count++;
-				if (count % 65536 == 0) {
+				if (count % 65536 == 0) {  // Update code tree
 					code = freqTable.buildCodeTree();
 					freqTable = new FrequencyTable(initFreqs);
 				}

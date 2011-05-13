@@ -10,7 +10,7 @@ import java.io.InputStream;
  */
 public final class BitInputStream {
 	
-	private InputStream input;
+	private InputStream input;  // Underlying byte stream to read from
 	
 	private int nextBits;  // Either in the range 0x00 to 0xFF, or -1 if the end of stream is reached
 	

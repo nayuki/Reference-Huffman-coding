@@ -10,28 +10,35 @@ import java.io.InputStream;
 import java.util.List;
 
 
-public class HuffmanCompress {
+// Uses static Huffman coding to compress an input file to an output file. Use HuffmanDecompress to decompress.
+// Uses 257 symbols - 256 for byte values and 1 for EOF. The compressed file format contains the code length of each symbol under a canonical code, followed by the Huffman-coded data.
+public final class HuffmanCompress {
 	
 	public static void main(String[] args) throws IOException {
+		// Show what command line arguments to use
 		if (args.length == 0) {
-			System.err.println("Usage: java HuffmanCompress [inputFile] [outputFile]");
+			System.err.println("Usage: java HuffmanCompress InputFile OutputFile");
 			System.exit(1);
 			return;
 		}
 		
+		// Otherwise, compress
 		File inputFile = new File(args[0]);
 		File outputFile = new File(args[1]);
 		
-		FrequencyTable freqs = buildFrequencyTable(inputFile);
-		CodeTree code = freqs.buildCodeTree();
+		// Read input file once to compute symbol frequencies
+		FrequencyTable freq = getFrequencies(inputFile);
+		freq.increment(256);  // EOF symbol gets a frequency of 1
+		CodeTree code = freq.buildCodeTree();
 		CanonicalCode canonCode = new CanonicalCode(code, 257);
-		code = canonCode.toCodeTree();
+		code = canonCode.toCodeTree();  // Replace code tree. For each symbol, the code value may change but the code length stays the same.
 		
+		// Read input file again, compress with Huffman coding, and write output file
 		InputStream in = new BufferedInputStream(new FileInputStream(inputFile));
 		BitOutputStream out = new BitOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile)));
 		try {
 			writeCode(out, canonCode);
-			compress(in, out, code);
+			compress(code, out, in);
 		} finally {
 			out.close();
 			in.close();
@@ -39,9 +46,8 @@ public class HuffmanCompress {
 	}
 	
 	
-	private static FrequencyTable buildFrequencyTable(File file) throws IOException {
+	private static FrequencyTable getFrequencies(File file) throws IOException {
 		FrequencyTable freq = new FrequencyTable(new int[257]);
-		freq.increment(256);  // EOF symbol gets a frequency of 1
 		InputStream input = new BufferedInputStream(new FileInputStream(file));
 		try {
 			while (true) {
@@ -60,32 +66,29 @@ public class HuffmanCompress {
 	private static void writeCode(BitOutputStream out, CanonicalCode canonCode) throws IOException {
 		for (int i = 0; i < canonCode.getSymbolLimit(); i++) {
 			int val = canonCode.getCodeLength(i);
-			if (val == -1)
-				val = 0;
-			
 			// For this file format, we only support codes up to 255 bits long
 			if (val >= 256)
 				throw new RuntimeException("The code for a symbol is too long");
 			
-			// Write in big endian
+			// Write value as 8 bits in big endian
 			for (int j = 7; j >= 0; j--)
 				out.write((val >>> j) & 1);
 		}
 	}
 	
 	
-	private static void compress(InputStream in, BitOutputStream out, CodeTree code) throws IOException {
+	private static void compress(CodeTree code, BitOutputStream out, InputStream in) throws IOException {
 		while (true) {
 			int b = in.read();
 			if (b == -1)
 				break;
-			encodeAndWrite(b, out, code);
+			encodeAndWrite(code, b, out);
 		}
-		encodeAndWrite(256, out, code);  // EOF
+		encodeAndWrite(code, 256, out);  // EOF
 	}
 	
 	
-	private static void encodeAndWrite(int symbol, BitOutputStream out, CodeTree code) throws IOException {
+	private static void encodeAndWrite(CodeTree code, int symbol, BitOutputStream out) throws IOException {
 		List<Integer> bits = code.getCode(symbol);
 		for (int b : bits)
 			out.write(b);

@@ -11,15 +11,17 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class AdaptiveHuffmanCompress {
+public final class AdaptiveHuffmanCompress {
 	
 	public static void main(String[] args) throws IOException {
+		// Show what command line arguments to use
 		if (args.length == 0) {
-			System.err.println("Usage: java AdaptiveHuffmanCompress [inputFile] [outputFile]");
+			System.err.println("Usage: java AdaptiveHuffmanCompress InputFile OutputFile");
 			System.exit(1);
 			return;
 		}
 		
+		// Otherwise, compress
 		File inputFile = new File(args[0]);
 		File outputFile = new File(args[1]);
 		
@@ -39,25 +41,25 @@ public class AdaptiveHuffmanCompress {
 		Arrays.fill(initFreqs, 1);
 		
 		FrequencyTable freqTable = new FrequencyTable(initFreqs);
-		CodeTree code = freqTable.buildCodeTree();
+		CodeTree code = freqTable.buildCodeTree();  // We don't need to make a canonical code since we don't transmit the code tree
 		int count = 0;
 		while (true) {
 			int b = in.read();
 			if (b == -1)
 				break;
-			encodeAndWrite(b, out, code);
+			encodeAndWrite(code, b, out);
 			freqTable.increment(b);
 			count++;
-			if (count % 65536 == 0) {
+			if (count % 65536 == 0) {  // Occasionally rebuild the code tree based on recent statistics
 				code = freqTable.buildCodeTree();
 				freqTable = new FrequencyTable(initFreqs);
 			}
 		}
-		encodeAndWrite(256, out, code);  // EOF
+		encodeAndWrite(code, 256, out);  // EOF
 	}
 	
 	
-	private static void encodeAndWrite(int symbol, BitOutputStream out, CodeTree code) throws IOException {
+	private static void encodeAndWrite(CodeTree code, int symbol, BitOutputStream out) throws IOException {
 		List<Integer> bits = code.getCode(symbol);
 		for (int b : bits)
 			out.write(b);

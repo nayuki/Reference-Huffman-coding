@@ -9,7 +9,7 @@ import java.io.OutputStream;
  */
 public final class BitOutputStream {
 	
-	private OutputStream output;
+	private OutputStream output;  // Underlying byte stream to write to
 	
 	private int currentByte;  // Always in the range 0x00 to 0xFF
 	
@@ -40,10 +40,10 @@ public final class BitOutputStream {
 	}
 	
 	
-	// Closes this stream and the underlying OutputStream. If this is called when the bit stream is not at a byte boundary, then the minimum number of zeros are written as padding to reach a byte boundary.
+	// Closes this stream and the underlying OutputStream. If called when this bit stream is not at a byte boundary, then the minimum number of zeros (between 0 and 7) are written as padding to reach a byte boundary.
 	public void close() throws IOException {
 		while (numBitsInCurrentByte != 0)
-			write(0);  // Pad with zeros until next byte boundary
+			write(0);
 		output.close();
 	}
 	

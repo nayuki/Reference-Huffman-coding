@@ -7,25 +7,29 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
 
 
-public class HuffmanDecompress {
+// Decompresses an input file that was compressed with HuffmanCompress, to an output file.
+public final class HuffmanDecompress {
 	
 	public static void main(String[] args) throws IOException {
+		// Show what command line arguments to use
 		if (args.length == 0) {
-			System.err.println("Usage: java HuffmanDecompress [inputFile] [outputFile]");
+			System.err.println("Usage: java HuffmanDecompress InputFile OutputFile");
 			System.exit(1);
 			return;
 		}
 		
+		// Otherwise, decompress
 		File inputFile = new File(args[0]);
 		File outputFile = new File(args[1]);
+		
 		BitInputStream in = new BitInputStream(new BufferedInputStream(new FileInputStream(inputFile)));
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
 		try {
-			CodeTree code = readCodebook(in);
-			decompress(in, out, code);
+			CanonicalCode canonCode = readCode(in);
+			CodeTree code = canonCode.toCodeTree();
+			decompress(code, in, out);
 		} finally {
 			out.close();
 			in.close();
@@ -33,10 +37,8 @@ public class HuffmanDecompress {
 	}
 	
 	
-	private static CodeTree readCodebook(BitInputStream in) throws IOException {
+	private static CanonicalCode readCode(BitInputStream in) throws IOException {
 		int[] codeLengths = new int[257];
-		Arrays.fill(codeLengths, -1);
-		
 		for (int i = 0; i < codeLengths.length; i++) {
 			// For this file format, we read 8 bits in big endian
 			int val = 0;
@@ -46,12 +48,11 @@ public class HuffmanDecompress {
 			}
 			codeLengths[i] = val;
 		}
-		
-		return new CanonicalCode(codeLengths).toCodeTree();
+		return new CanonicalCode(codeLengths);
 	}
 	
 	
-	private static void decompress(BitInputStream in, OutputStream out, CodeTree code) throws IOException {
+	private static void decompress(CodeTree code, BitInputStream in, OutputStream out) throws IOException {
 		InternalNode currentNode = code.root;
 		while (true) {
 			int temp = in.readNoEof();

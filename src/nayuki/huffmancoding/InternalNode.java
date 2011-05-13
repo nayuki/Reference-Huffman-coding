@@ -6,9 +6,9 @@ package nayuki.huffmancoding;
  */
 public final class InternalNode extends Node {
 	
-	public final Node leftChild;
+	public final Node leftChild;  // Not null
 	
-	public final Node rightChild;
+	public final Node rightChild;  // Not null
 	
 	
 	
