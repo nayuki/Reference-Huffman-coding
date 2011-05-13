@@ -80,7 +80,8 @@ public final class FrequencyTable {
 			if (i >= frequencies.length || frequencies[i] == 0)
 				pqueue.add(new NodeWithFrequency(new Leaf(i), i, 0));
 		}
-		assert pqueue.size() >= 2;
+		if (pqueue.size() < 2)
+			throw new AssertionError();
 		
 		// Repeatedly tie together two nodes with the lowest frequency
 		while (pqueue.size() > 1) {
