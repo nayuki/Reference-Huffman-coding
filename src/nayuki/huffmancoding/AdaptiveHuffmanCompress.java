@@ -36,7 +36,7 @@ public final class AdaptiveHuffmanCompress {
 	}
 	
 	
-	private static void compress(InputStream in, BitOutputStream out) throws IOException {
+	static void compress(InputStream in, BitOutputStream out) throws IOException {
 		int[] initFreqs = new int[257];
 		Arrays.fill(initFreqs, 1);
 		

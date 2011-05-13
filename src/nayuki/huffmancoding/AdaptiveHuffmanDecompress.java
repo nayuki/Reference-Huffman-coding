@@ -35,7 +35,7 @@ public final class AdaptiveHuffmanDecompress {
 	}
 	
 	
-	private static void decompress(BitInputStream in, OutputStream out) throws IOException {
+	static void decompress(BitInputStream in, OutputStream out) throws IOException {
 		int[] initFreqs = new int[257];
 		Arrays.fill(initFreqs, 1);
 		
