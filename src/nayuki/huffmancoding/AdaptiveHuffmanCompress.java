@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.List;
 
 
 public final class AdaptiveHuffmanCompress {
@@ -42,12 +41,16 @@ public final class AdaptiveHuffmanCompress {
 		
 		FrequencyTable freqTable = new FrequencyTable(initFreqs);
 		CodeTree code = freqTable.buildCodeTree();  // We don't need to make a canonical code since we don't transmit the code tree
+		
+		HuffmanEncoder enc = new HuffmanEncoder(out);
+		enc.codeTree = code;
 		int count = 0;
 		while (true) {
 			int b = in.read();
 			if (b == -1)
 				break;
-			encodeAndWrite(code, b, out);
+			enc.write(b);
+			
 			freqTable.increment(b);
 			count++;
 			if (count < 262144 && isPowerOf2(count) || count % 262144 == 0)  // Update code tree
@@ -55,14 +58,7 @@ public final class AdaptiveHuffmanCompress {
 			if (count % 262144 == 0)  // Reset frequency table
 				freqTable = new FrequencyTable(initFreqs);
 		}
-		encodeAndWrite(code, 256, out);  // EOF
-	}
-	
-	
-	private static void encodeAndWrite(CodeTree code, int symbol, BitOutputStream out) throws IOException {
-		List<Integer> bits = code.getCode(symbol);
-		for (int b : bits)
-			out.write(b);
+		enc.write(256);  // EOF
 	}
 	
 	

@@ -41,33 +41,22 @@ public final class AdaptiveHuffmanDecompress {
 		
 		FrequencyTable freqTable = new FrequencyTable(initFreqs);
 		CodeTree code = freqTable.buildCodeTree();
-		InternalNode currentNode = code.root;
+		
+		HuffmanDecoder dec = new HuffmanDecoder(in);
+		dec.codeTree = code;
 		int count = 0;
 		while (true) {
-			int temp = in.readNoEof();
-			Node nextNode;
-			if      (temp == 0) nextNode = currentNode.leftChild;
-			else if (temp == 1) nextNode = currentNode.rightChild;
-			else throw new AssertionError();
+			int symbol = dec.read();
+			if (symbol == 256)  // EOF symbol
+				break;
+			out.write(symbol);
 			
-			if (nextNode instanceof Leaf) {
-				int symbol = ((Leaf)nextNode).symbol;
-				if (symbol == 256)  // EOF symbol
-					break;
-				out.write(symbol);
-				
-				freqTable.increment(symbol);
-				count++;
-				if (count < 262144 && isPowerOf2(count) || count % 262144 == 0)  // Update code tree
-					code = freqTable.buildCodeTree();
-				if (count % 262144 == 0)  // Reset frequency table
-					freqTable = new FrequencyTable(initFreqs);
-				currentNode = code.root;
-			} else if (nextNode instanceof InternalNode) {
-				currentNode = (InternalNode)nextNode;
-			} else {
-				throw new AssertionError();
-			}
+			freqTable.increment(symbol);
+			count++;
+			if (count < 262144 && isPowerOf2(count) || count % 262144 == 0)  // Update code tree
+				code = freqTable.buildCodeTree();
+			if (count % 262144 == 0)  // Reset frequency table
+				freqTable = new FrequencyTable(initFreqs);
 		}
 	}
 	

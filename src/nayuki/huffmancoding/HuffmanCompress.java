@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 
 // Uses static Huffman coding to compress an input file to an output file. Use HuffmanDecompress to decompress.
@@ -79,20 +78,15 @@ public final class HuffmanCompress {
 	
 	
 	static void compress(CodeTree code, InputStream in, BitOutputStream out) throws IOException {
+		HuffmanEncoder enc = new HuffmanEncoder(out);
+		enc.codeTree = code;
 		while (true) {
 			int b = in.read();
 			if (b == -1)
 				break;
-			encodeAndWrite(code, b, out);
+			enc.write(b);
 		}
-		encodeAndWrite(code, 256, out);  // EOF
-	}
-	
-	
-	private static void encodeAndWrite(CodeTree code, int symbol, BitOutputStream out) throws IOException {
-		List<Integer> bits = code.getCode(symbol);
-		for (int b : bits)
-			out.write(b);
+		enc.write(256);  // EOF
 	}
 	
 }
