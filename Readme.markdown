@@ -7,6 +7,12 @@ and extension. As such, it is optimized for clear logic and low complexity, not
 speed/memory/performance.
 
 
+Description
+-----------
+
+An overview of the code is given here: [http://nayuki.eigenstate.org/page/huffman-coding-java](http://nayuki.eigenstate.org/page/huffman-coding-java)
+
+
 License
 -------
 
