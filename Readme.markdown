@@ -2,9 +2,9 @@ Huffman Coding
 ==============
 
 This project is a reference implementation of Huffman coding in Java. The
-implementation is intended to be used for study, and as a solid basis for
-modification and extension. As such, it is optimized for clean logic and low
-complexity, not speed/memory/performance.
+code is intended to be used for study, and as a solid basis for modification
+and extension. As such, it is optimized for clear logic and low complexity, not
+speed/memory/performance.
 
 
 License
