@@ -42,10 +42,8 @@ public final class HuffmanDecompress {
 		for (int i = 0; i < codeLengths.length; i++) {
 			// For this file format, we read 8 bits in big endian
 			int val = 0;
-			for (int j = 0; j < 8; j++) {
-				int temp = in.readNoEof();
-				val = val << 1 | temp;
-			}
+			for (int j = 0; j < 8; j++) 
+				val = val << 1 | in.readNoEof();
 			codeLengths[i] = val;
 		}
 		return new CanonicalCode(codeLengths);

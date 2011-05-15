@@ -64,8 +64,9 @@ public class AdaptiveHuffmanTest {
 			BitOutputStream compressedOutBit = new BitOutputStream(compressedOut);
 			AdaptiveHuffmanCompress.compress(original, compressedOutBit);
 			compressedOutBit.close();
+			byte[] compressed = compressedOut.toByteArray();
 			
-			InputStream compressedIn = new ByteArrayInputStream(compressedOut.toByteArray());
+			InputStream compressedIn = new ByteArrayInputStream(compressed);
 			BitInputStream compressedInBit = new BitInputStream(compressedIn);
 			ByteArrayOutputStream decompressed = new ByteArrayOutputStream();
 			AdaptiveHuffmanDecompress.decompress(compressedInBit, decompressed);

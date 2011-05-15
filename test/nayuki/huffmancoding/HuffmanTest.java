@@ -82,8 +82,9 @@ public class HuffmanTest {
 			BitOutputStream compressedOutBit = new BitOutputStream(compressedOut);
 			HuffmanCompress.compress(code, original, compressedOutBit);
 			compressedOutBit.close();
+			byte[] compressed = compressedOut.toByteArray();
 			
-			InputStream compressedIn = new ByteArrayInputStream(compressedOut.toByteArray());
+			InputStream compressedIn = new ByteArrayInputStream(compressed);
 			BitInputStream compressedInBit = new BitInputStream(compressedIn);
 			ByteArrayOutputStream decompressed = new ByteArrayOutputStream();
 			HuffmanDecompress.decompress(code, compressedInBit, decompressed);
