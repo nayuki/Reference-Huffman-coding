@@ -16,7 +16,7 @@ import java.util.List;
  *     Symbol C: 0 (no code)
  *     Symbol D: 2
  *     Symbol E: 3
- *   Huffman codes:
+ *   Huffman codes (generated from canonical code):
  *     Symbol A: 0
  *     Symbol B: 110
  *     Symbol C: None
