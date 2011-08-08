@@ -40,10 +40,8 @@ public final class AdaptiveHuffmanDecompress {
 		Arrays.fill(initFreqs, 1);
 		
 		FrequencyTable freqTable = new FrequencyTable(initFreqs);
-		CodeTree code = freqTable.buildCodeTree();
-		
 		HuffmanDecoder dec = new HuffmanDecoder(in);
-		dec.codeTree = code;
+		dec.codeTree = freqTable.buildCodeTree();
 		int count = 0;
 		while (true) {
 			int symbol = dec.read();
@@ -54,7 +52,7 @@ public final class AdaptiveHuffmanDecompress {
 			freqTable.increment(symbol);
 			count++;
 			if (count < 262144 && isPowerOf2(count) || count % 262144 == 0)  // Update code tree
-				code = freqTable.buildCodeTree();
+				dec.codeTree = freqTable.buildCodeTree();
 			if (count % 262144 == 0)  // Reset frequency table
 				freqTable = new FrequencyTable(initFreqs);
 		}

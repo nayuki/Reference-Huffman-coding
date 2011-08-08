@@ -40,10 +40,8 @@ public final class AdaptiveHuffmanCompress {
 		Arrays.fill(initFreqs, 1);
 		
 		FrequencyTable freqTable = new FrequencyTable(initFreqs);
-		CodeTree code = freqTable.buildCodeTree();  // We don't need to make a canonical code since we don't transmit the code tree
-		
 		HuffmanEncoder enc = new HuffmanEncoder(out);
-		enc.codeTree = code;
+		enc.codeTree = freqTable.buildCodeTree();  // We don't need to make a canonical code since we don't transmit the code tree
 		int count = 0;
 		while (true) {
 			int b = in.read();
@@ -54,7 +52,7 @@ public final class AdaptiveHuffmanCompress {
 			freqTable.increment(b);
 			count++;
 			if (count < 262144 && isPowerOf2(count) || count % 262144 == 0)  // Update code tree
-				code = freqTable.buildCodeTree();
+				enc.codeTree = freqTable.buildCodeTree();
 			if (count % 262144 == 0)  // Reset frequency table
 				freqTable = new FrequencyTable(initFreqs);
 		}
