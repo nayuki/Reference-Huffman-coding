@@ -37,7 +37,7 @@ public final class HuffmanDecompress {
 	}
 	
 	
-	private static CanonicalCode readCode(BitInputStream in) throws IOException {
+	static CanonicalCode readCode(BitInputStream in) throws IOException {
 		int[] codeLengths = new int[257];
 		for (int i = 0; i < codeLengths.length; i++) {
 			// For this file format, we read 8 bits in big endian

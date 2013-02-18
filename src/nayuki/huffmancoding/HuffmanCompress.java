@@ -63,7 +63,7 @@ public final class HuffmanCompress {
 	}
 	
 	
-	private static void writeCode(BitOutputStream out, CanonicalCode canonCode) throws IOException {
+	static void writeCode(BitOutputStream out, CanonicalCode canonCode) throws IOException {
 		for (int i = 0; i < canonCode.getSymbolLimit(); i++) {
 			int val = canonCode.getCodeLength(i);
 			// For this file format, we only support codes up to 255 bits long

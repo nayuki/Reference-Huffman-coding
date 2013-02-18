@@ -3,18 +3,14 @@ package nayuki.huffmancoding;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
 
 import org.junit.Test;
 
 
-// Tests HuffmanCompress coupled with HuffmanDecompress.
-public class HuffmanTest {
+public abstract class HuffmanCodingTest {
 	
 	@Test
 	public void testEmpty() {
@@ -60,9 +56,19 @@ public class HuffmanTest {
 	
 	
 	@Test
-	public void testRandom() {
+	public void testRandomShort() {
 		for (int i = 0; i < 100; i++) {
 			byte[] b = new byte[random.nextInt(1000)];
+			random.nextBytes(b);
+			test(b);
+		}
+	}
+	
+	
+	@Test
+	public void testRandomLong() {
+		for (int i = 0; i < 3; i++) {
+			byte[] b = new byte[random.nextInt(1000000)];
 			random.nextBytes(b);
 			test(b);
 		}
@@ -73,23 +79,11 @@ public class HuffmanTest {
 	private static Random random = new Random();
 	
 	
-	private static void test(byte[] b) {
+	private void test(byte[] b) {
 		try {
-			CodeTree code = makeCode(b);
-			
-			InputStream original = new ByteArrayInputStream(b);
-			ByteArrayOutputStream compressedOut = new ByteArrayOutputStream();
-			BitOutputStream compressedOutBit = new BitOutputStream(compressedOut);
-			HuffmanCompress.compress(code, original, compressedOutBit);
-			compressedOutBit.close();
-			byte[] compressed = compressedOut.toByteArray();
-			
-			InputStream compressedIn = new ByteArrayInputStream(compressed);
-			BitInputStream compressedInBit = new BitInputStream(compressedIn);
-			ByteArrayOutputStream decompressed = new ByteArrayOutputStream();
-			HuffmanDecompress.decompress(code, compressedInBit, decompressed);
-			
-			assertArrayEquals(b, decompressed.toByteArray());
+			byte[] compressed = compress(b);
+			byte[] decompressed = decompress(compressed);
+			assertArrayEquals(b, decompressed);
 		} catch (EOFException e) {
 			fail("Unexpected EOF");
 		} catch (IOException e) {
@@ -98,15 +92,8 @@ public class HuffmanTest {
 	}
 	
 	
-	// Makes the canonical optimal static code for the given bytes
-	private static CodeTree makeCode(byte[] b) {
-		FrequencyTable freq = new FrequencyTable(new int[257]);
-		freq.increment(256);  // EOF symbol
-		for (byte x : b)
-			freq.increment(x & 0xFF);
-		CodeTree code = freq.buildCodeTree();
-		CanonicalCode canonCode = new CanonicalCode(code, 257);
-		return canonCode.toCodeTree();
-	}
+	protected abstract byte[] compress(byte[] b) throws IOException;
+	
+	protected abstract byte[] decompress(byte[] b) throws IOException;
 	
 }
