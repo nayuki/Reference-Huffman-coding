@@ -1,10 +1,10 @@
 Huffman Coding
 ==============
 
-This project is a reference implementation of Huffman coding in Java. The
-code is intended to be used for study, and as a solid basis for modification
-and extension. As such, it is optimized for clear logic and low complexity, not
-speed/memory/performance.
+This project is an open-source reference implementation of Huffman coding in Java.
+The code is intended to be used for study, and as a solid basis for modification
+and extension. As such, it is optimized for clear logic and low complexity,
+not speed/memory/performance.
 
 
 Description
@@ -18,7 +18,7 @@ License
 
 (MIT License)
 
-Copyright © 2011 Nayuki Minase
+Copyright © 2013 Nayuki Minase
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
