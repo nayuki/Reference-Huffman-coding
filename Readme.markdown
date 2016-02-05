@@ -10,7 +10,7 @@ not speed/memory/performance.
 Description
 -----------
 
-An overview of the code is given here: [http://www.nayuki.io/page/huffman-coding-java](http://www.nayuki.io/page/huffman-coding-java)
+An overview of the code is given here: [https://www.nayuki.io/page/huffman-coding-java](https://www.nayuki.io/page/huffman-coding-java)
 
 
 License
