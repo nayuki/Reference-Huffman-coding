@@ -61,10 +61,10 @@ public final class AdaptiveHuffmanDecompress {
 			if (symbol == 256)  // EOF symbol
 				break;
 			out.write(symbol);
+			count++;
 			
 			// Update the frequency table and possibly the code tree
 			freqs.increment(symbol);
-			count++;
 			if (count < 262144 && isPowerOf2(count) || count % 262144 == 0)  // Update code tree
 				dec.codeTree = freqs.buildCodeTree();
 			if (count % 262144 == 0)  // Reset frequency table

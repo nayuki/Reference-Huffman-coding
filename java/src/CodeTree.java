@@ -70,7 +70,7 @@ public final class CodeTree {
 	 */
 	public CodeTree(InternalNode root, int symbolLimit) {
 		if (root == null)
-			throw new NullPointerException("Argument is null");
+			throw new NullPointerException();
 		this.root = root;
 		
 		codes = new ArrayList<List<Integer>>();  // Initially all null

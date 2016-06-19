@@ -6,11 +6,10 @@
  * https://github.com/nayuki/Reference-Huffman-coding
  */
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.fail;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Random;
+import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -79,22 +78,21 @@ public abstract class HuffmanCodingTest {
 	
 	/* Utilities */
 	
-	private static Random random = new Random();
-	
-	
 	// Tests that the given byte array can be compressed and decompressed to the same data, and not throw any exceptions.
 	private void test(byte[] b) {
 		try {
 			byte[] compressed = compress(b);
 			byte[] decompressed = decompress(compressed);
-			assertArrayEquals(b, decompressed);
+			Assert.assertArrayEquals(b, decompressed);
 		} catch (EOFException e) {
-			fail("Unexpected EOF");
+			Assert.fail("Unexpected EOF");
 		} catch (IOException e) {
 			throw new AssertionError(e);
 		}
 	}
 	
+	
+	private static Random random = new Random();
 	
 	
 	/* Abstract methods */

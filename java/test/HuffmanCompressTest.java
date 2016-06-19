@@ -18,14 +18,18 @@ import java.io.InputStream;
 public class HuffmanCompressTest extends HuffmanCodingTest {
 	
 	protected byte[] compress(byte[] b) throws IOException {
+		FrequencyTable freqs = new FrequencyTable(new int[257]);
+		for (byte x : b)
+			freqs.increment(x & 0xFF);
+		freqs.increment(256);  // EOF symbol gets a frequency of 1
+		CodeTree code = freqs.buildCodeTree();
+		CanonicalCode canonCode = new CanonicalCode(code, 257);
+		code = canonCode.toCodeTree();
+		
 		InputStream in = new ByteArrayInputStream(b);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		BitOutputStream bitOut = new BitOutputStream(out);
 		
-		FrequencyTable freqs = getFrequencies(b);
-		CodeTree code = freqs.buildCodeTree();
-		CanonicalCode canonCode = new CanonicalCode(code, 257);
-		code = canonCode.toCodeTree();
 		HuffmanCompress.writeCode(bitOut, canonCode);
 		HuffmanCompress.compress(code, in, bitOut);
 		bitOut.close();
@@ -42,15 +46,6 @@ public class HuffmanCompressTest extends HuffmanCodingTest {
 		CodeTree code = canonCode.toCodeTree();
 		HuffmanDecompress.decompress(code, bitIn, out);
 		return out.toByteArray();
-	}
-	
-	
-	private static FrequencyTable getFrequencies(byte[] b) {
-		FrequencyTable freqs = new FrequencyTable(new int[257]);
-		for (byte x : b)
-			freqs.increment(x & 0xFF);
-		freqs.increment(256);  // EOF symbol gets a frequency of 1
-		return freqs;
 	}
 	
 }

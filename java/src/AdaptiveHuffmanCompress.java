@@ -62,14 +62,14 @@ public final class AdaptiveHuffmanCompress {
 		int count = 0;  // Number of bytes read from the input file
 		while (true) {
 			// Read and encode one byte
-			int b = in.read();
-			if (b == -1)
+			int symbol = in.read();
+			if (symbol == -1)
 				break;
-			enc.write(b);
+			enc.write(symbol);
+			count++;
 			
 			// Update the frequency table and possibly the code tree
-			freqs.increment(b);
-			count++;
+			freqs.increment(symbol);
 			if (count < 262144 && isPowerOf2(count) || count % 262144 == 0)  // Update code tree
 				enc.codeTree = freqs.buildCodeTree();
 			if (count % 262144 == 0)  // Reset frequency table
