@@ -1,16 +1,12 @@
-Huffman Coding
-==============
+Reference Huffman coding
+========================
 
-This project is an open-source reference implementation of Huffman coding in Java.
-The code is intended to be used for study, and as a solid basis for modification
-and extension. As such, it is optimized for clear logic and low complexity,
-not speed/memory/performance.
+This project is a clear implementation of Huffman coding in Java, suitable as a reference for
+educational purposes. The code can be used for study, and as a solid basis for modification
+and extension. Consequently, the codebase optimizes for readability and avoids fancy logic,
+and does not target the best speed/memory/performance.
 
-
-Description
------------
-
-An overview of the code is given here: [https://www.nayuki.io/page/huffman-coding-java](https://www.nayuki.io/page/huffman-coding-java)
+Home page with detailed description: [https://www.nayuki.io/page/reference-huffman-coding](https://www.nayuki.io/page/reference-huffman-coding)
 
 
 License
@@ -18,7 +14,7 @@ License
 
 (MIT License)
 
-Copyright © 2014 Project Nayuki
+Copyright © 2016 Project Nayuki
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
