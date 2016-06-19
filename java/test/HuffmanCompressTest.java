@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-// Tests HuffmanCompress coupled with HuffmanDecompress.
+/**
+ * Tests {@link HuffmanCompress} coupled with {@link HuffmanDecompress}.
+ */
 public class HuffmanCompressTest extends HuffmanCodingTest {
 	
 	protected byte[] compress(byte[] b) throws IOException {

@@ -14,7 +14,12 @@ import java.util.Random;
 import org.junit.Test;
 
 
+/**
+ * Tests the compression and decompression of a complete Huffman coding application, using the JUnit test framework.
+ */
 public abstract class HuffmanCodingTest {
+	
+	/* Test cases */
 	
 	@Test public void testEmpty() {
 		test(new byte[0]);
@@ -72,10 +77,12 @@ public abstract class HuffmanCodingTest {
 	}
 	
 	
+	/* Utilities */
 	
 	private static Random random = new Random();
 	
 	
+	// Tests that the given byte array can be compressed and decompressed to the same data, and not throw any exceptions.
 	private void test(byte[] b) {
 		try {
 			byte[] compressed = compress(b);
@@ -89,8 +96,13 @@ public abstract class HuffmanCodingTest {
 	}
 	
 	
+	
+	/* Abstract methods */
+	
+	// Compression method that needs to be supplied by a subclass.
 	protected abstract byte[] compress(byte[] b) throws IOException;
 	
+	// Decompression method that needs to be supplied by a subclass.
 	protected abstract byte[] decompress(byte[] b) throws IOException;
 	
 }

@@ -15,10 +15,17 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-// Uses static Huffman coding to compress an input file to an output file. Use HuffmanDecompress to decompress.
-// Uses 257 symbols - 256 for byte values and 1 for EOF. The compressed file format contains the code length of each symbol under a canonical code, followed by the Huffman-coded data.
+/**
+ * Compression application using static Huffman coding.
+ * <p>Usage: java HuffmanCompress InputFile OutputFile</p>
+ * <p>Then use the corresponding "HuffmanDecompress" application to recreate the original input file.</p>
+ * <p>Note that the application uses an alphabet of 257 symbols - 256 symbols for the byte values
+ * and 1 symbol for the EOF marker. The compressed file format starts with a list of 257
+ * code lengths, treated as a canonical code, and then followed by the Huffman-coded data.</p>
+ */
 public final class HuffmanCompress {
 	
+	// Command line main application function.
 	public static void main(String[] args) throws IOException {
 		// Handle command line arguments
 		if (args.length != 2) {
@@ -29,13 +36,15 @@ public final class HuffmanCompress {
 		File inputFile  = new File(args[0]);
 		File outputFile = new File(args[1]);
 		
-		// Read input file once to compute symbol frequencies
-		// The resulting generated code is optimal for static Huffman coding and also canonical
+		// Read input file once to compute symbol frequencies.
+		// The resulting generated code is optimal for static Huffman coding and also canonical.
 		FrequencyTable freqs = getFrequencies(inputFile);
 		freqs.increment(256);  // EOF symbol gets a frequency of 1
 		CodeTree code = freqs.buildCodeTree();
 		CanonicalCode canonCode = new CanonicalCode(code, 257);
-		code = canonCode.toCodeTree();  // Replace code tree with canonical one. For each symbol, the code value may change but the code length stays the same.
+		// Replace code tree with canonical one. For each symbol,
+		// the code value may change but the code length stays the same.
+		code = canonCode.toCodeTree();
 		
 		// Read input file again, compress with Huffman coding, and write output file
 		InputStream in = new BufferedInputStream(new FileInputStream(inputFile));

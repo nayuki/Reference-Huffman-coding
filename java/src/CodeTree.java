@@ -11,38 +11,47 @@ import java.util.List;
 
 
 /**
- * A binary tree where each leaf codes a symbol, for representing Huffman codes. Immutable.
+ * A binary tree that represents a mapping between symbols and binary strings. Each encodable
+ * symbol is represented as a leaf node, and the path from the root to a leaf represents
+ * the binary string associated with the symbol. The data structure is immutable.
+ * <p>There are two main uses of a code tree:</p>
+ * <ul>
+ *   <li>Read the 'root' field and walk through the tree to extract the desired information.</li>
+ *   <li>Call getCode() to get the code for a symbol, provided that the symbol has a code.</li>
+ * </ul>
+ * <p>The path to a leaf node determines the leaf's symbol's code. Starting from the root, going
+ * to the left child represents a 0, and going to the right child represents a 1. Constraints:</p>
+ * <ul>
+ *   <li>The tree must be complete, i.e. every leaf must have a symbol.</li>
+ *   <li>No symbol occurs in two leaves.</li>
+ *   <li>But not every symbol needs to be in the tree.</li>
+ *   <li>The root must not be a leaf node.</li>
+ * </ul>
+ * <p>Illustrated example:</p>
+ * <pre>  Huffman codes:
+ *    0: Symbol A
+ *    10: Symbol B
+ *    110: Symbol C
+ *    111: Symbol D
+ *
+ *  Code tree:
+ *      .
+ *     / \
+ *    A   .
+ *       / \
+ *      B   .
+ *         / \
+ *        C   D</pre>
  * @see FrequencyTable
- */
-/*
- * There are two main uses of a CodeTree:
- * - Read the 'root' field and walk through the tree to extract the desired information.
- * - Call getCode() to get the code for a symbol, provided that the symbol has a code.
- * 
- * The path to a leaf node determines the leaf's symbol's code. Starting from the root, going to the left child represents a 0, and going to the right child represents a 1.
- * Constraints:
- * - The tree must be complete, i.e. every leaf must have a symbol.
- * - No symbol occurs in two leaves.
- * - But not every symbol needs to be in the tree.
- * - The root must not be a leaf node.
- * Example:
- *   Huffman codes:
- *     0: Symbol A
- *     10: Symbol B
- *     110: Symbol C
- *     111: Symbol D
- *   Code tree:
- *       .
- *      / \
- *     A   .
- *        / \
- *       B   .
- *          / \
- *         C   D
  */
 public final class CodeTree {
 	
-	public final InternalNode root;  // Not null
+	/* Fields and constructor */
+	
+	/**
+	 * The root node of this code tree (not {@code null}).
+	 */
+	public final InternalNode root;
 	
 	// Stores the code for each symbol, or null if the symbol has no code.
 	// For example, if symbol 5 has code 10011, then codes.get(5) is the list [1, 0, 0, 1, 1].
@@ -50,7 +59,15 @@ public final class CodeTree {
 	
 	
 	
-	// Every symbol in the tree 'root' must be strictly less than 'symbolLimit'.
+	/**
+	 * Constructs a code tree from the specified tree of nodes and specified symbol limit.
+	 * Each symbol in the tree must have value strictly less than the symbol limit.
+	 * @param root the root of the tree
+	 * @param symbolLimit the symbol limit
+	 * @throws NullPointerException if tree root is {@code null}
+	 * @throws IllegalArgumentException if any symbol in the tree has a value greater or
+	 * equal to the symbol limit, or a symbol value appears more than once in the tree
+	 */
 	public CodeTree(InternalNode root, int symbolLimit) {
 		if (root == null)
 			throw new NullPointerException("Argument is null");
@@ -90,6 +107,8 @@ public final class CodeTree {
 	}
 	
 	
+	
+	/* Various methods */
 	
 	/**
 	 * Returns the Huffman code for the specified symbol, which is a list of 0s and 1s.

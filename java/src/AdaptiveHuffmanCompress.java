@@ -16,8 +16,19 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 
+/**
+ * Compression application using adaptive Huffman coding.
+ * <p>Usage: java HuffmanCompress InputFile OutputFile</p>
+ * <p>Then use the corresponding "AdaptiveHuffmanDecompress" application to recreate the original input file.</p>
+ * <p>Note that the application starts with a flat frequency table of 257 symbols (all set to a frequency of 1),
+ * collects statistics while bytes are being encoded, and regenerates the Huffman code periodically. The
+ * corresponding decompressor program also starts with a flat frequency table, updates it while bytes are being
+ * decoded, and regenerates the Huffman code periodically at the exact same points in time. It is by design that
+ * the compressor and decompressor have synchronized states, so that the data can be decompressed properly.</p>
+ */
 public final class AdaptiveHuffmanCompress {
 	
+	// Command line main application function.
 	public static void main(String[] args) throws IOException {
 		// Handle command line arguments
 		if (args.length != 2) {
@@ -47,14 +58,16 @@ public final class AdaptiveHuffmanCompress {
 		
 		FrequencyTable freqs = new FrequencyTable(initFreqs);
 		HuffmanEncoder enc = new HuffmanEncoder(out);
-		enc.codeTree = freqs.buildCodeTree();  // We don't need to make a canonical code since we don't transmit the code tree
+		enc.codeTree = freqs.buildCodeTree();  // Don't need to make canonical code because we don't transmit the code tree
 		int count = 0;  // Number of bytes read from the input file
 		while (true) {
+			// Read and encode one byte
 			int b = in.read();
 			if (b == -1)
 				break;
 			enc.write(b);
 			
+			// Update the frequency table and possibly the code tree
 			freqs.increment(b);
 			count++;
 			if (count < 262144 && isPowerOf2(count) || count % 262144 == 0)  // Update code tree
