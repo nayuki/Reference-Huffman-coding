@@ -39,7 +39,8 @@ public final class CanonicalCode {
 	
 	
 	
-	// The constructor does not check that the array of code lengths results in a complete Huffman tree, being neither underfilled nor overfilled.
+	// The constructor does not check that the array of code lengths results
+	// in a complete Huffman tree, being neither underfilled nor overfilled.
 	public CanonicalCode(int[] codeLengths) {
 		if (codeLengths == null)
 			throw new NullPointerException();

@@ -91,7 +91,8 @@ public final class FrequencyTable {
 	 * Increments the frequency of the specified symbol in this frequency table.
 	 * @param symbol the symbol whose frequency will be incremented
 	 * @throws IllegalArgumentException if the symbol is out of range
-	 * @throws IllegalStateException if the symbol already has the maximum allowed frequency of {@code Integer.MAX_VALUE}
+	 * @throws IllegalStateException if the symbol already has
+	 * the maximum allowed frequency of {@code Integer.MAX_VALUE}
 	 */
 	public void increment(int symbol) {
 		checkSymbol(symbol);
@@ -125,8 +126,9 @@ public final class FrequencyTable {
 	/* Advanced methods */
 	
 	/**
-	 * Returns a code tree that is optimal for the symbol frequencies in this table. The tree always contains at least 2 leaves
-	 * (even if they come from symbols with 0 frequency), to avoid degenerate trees. Note that optimal trees are not unique.
+	 * Returns a code tree that is optimal for the symbol frequencies in this table.
+	 * The tree always contains at least 2 leaves (even if they come from symbols with
+	 * 0 frequency), to avoid degenerate trees. Note that optimal trees are not unique.
 	 * @return an optimal code tree for this frequency table
 	 */
 	public CodeTree buildCodeTree() {

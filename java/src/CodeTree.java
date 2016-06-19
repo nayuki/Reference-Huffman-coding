@@ -114,7 +114,8 @@ public final class CodeTree {
 	 * Returns the Huffman code for the specified symbol, which is a list of 0s and 1s.
 	 * @param symbol the symbol to query
 	 * @return a list of 0s and 1s, of length at least 1
-	 * @throws IllegalArgumentException if the symbol is negative, or no Huffman code exists for it (e.g. because it had a zero frequency)
+	 * @throws IllegalArgumentException if the symbol is negative, or no
+	 * Huffman code exists for it (e.g. because it had a zero frequency)
 	 */
 	public List<Integer> getCode(int symbol) {
 		if (symbol < 0)
