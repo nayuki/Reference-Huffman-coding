@@ -67,8 +67,9 @@ public final class CanonicalCode {
 			buildCodeLengths(internalNode.rightChild, depth + 1);
 		} else if (node instanceof Leaf) {
 			int symbol = ((Leaf)node).symbol;
+			// Note: CodeTree already has a checked constraint that disallows a symbol in multiple leaves
 			if (codeLengths[symbol] != 0)
-				throw new AssertionError("Symbol has more than one code");  // Because CodeTree has a checked constraint that disallows a symbol in multiple leaves
+				throw new AssertionError("Symbol has more than one code");
 			if (symbol >= codeLengths.length)
 				throw new IllegalArgumentException("Symbol exceeds symbol limit");
 			codeLengths[symbol] = depth;

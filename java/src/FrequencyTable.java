@@ -132,7 +132,9 @@ public final class FrequencyTable {
 	 * @return an optimal code tree for this frequency table
 	 */
 	public CodeTree buildCodeTree() {
-		// Note that if two nodes have the same frequency, then the tie is broken by which tree contains the lowest symbol. Thus the algorithm is not dependent on how the queue breaks ties.
+		// Note that if two nodes have the same frequency, then the tie is broken
+		// by which tree contains the lowest symbol. Thus the algorithm has a
+		// deterministic output and does not rely on the queue to break ties.
 		Queue<NodeWithFrequency> pqueue = new PriorityQueue<NodeWithFrequency>();
 		
 		// Add leaves for symbols with non-zero frequency
@@ -151,12 +153,12 @@ public final class FrequencyTable {
 		
 		// Repeatedly tie together two nodes with the lowest frequency
 		while (pqueue.size() > 1) {
-			NodeWithFrequency nf1 = pqueue.remove();
-			NodeWithFrequency nf2 = pqueue.remove();
+			NodeWithFrequency x = pqueue.remove();
+			NodeWithFrequency y = pqueue.remove();
 			pqueue.add(new NodeWithFrequency(
-				new InternalNode(nf1.node, nf2.node),
-				Math.min(nf1.lowestSymbol, nf2.lowestSymbol),
-				nf1.frequency + nf2.frequency));
+				new InternalNode(x.node, y.node),
+				Math.min(x.lowestSymbol, y.lowestSymbol),
+				x.frequency + y.frequency));
 		}
 		
 		// Return the remaining node
