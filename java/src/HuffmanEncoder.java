@@ -10,16 +10,29 @@ import java.io.IOException;
 import java.util.List;
 
 
+/**
+ * Encodes symbols and writes to a Huffman-coded bit stream.
+ * @see HuffmanDecoder
+ */
 public final class HuffmanEncoder {
 	
+	// The underlying bit output stream.
 	private BitOutputStream output;
 	
-	// Must be initialized before calling write().
-	// The code tree can be changed after each symbol encoded, as long as the encoder and decoder have the same code tree at the same time.
+	/**
+	 * The code tree to use in the next {@link#write(int)} operation. Must be given a non-{@code null}
+	 * value before calling write(). The tree can be changed after each symbol encoded, as long
+	 * as the encoder and decoder have the same tree at the same point in the code stream.
+	 */
 	public CodeTree codeTree;
 	
 	
 	
+	/**
+	 * Constructs a Huffman encoder based on the specified bit output stream.
+	 * @param in the bit output stream to write to
+	 * @throws NullPointerException if the output stream is {@code null}
+	 */
 	public HuffmanEncoder(BitOutputStream out) {
 		if (out == null)
 			throw new NullPointerException();
@@ -28,6 +41,12 @@ public final class HuffmanEncoder {
 	
 	
 	
+	/**
+	 * Encodes the specified symbol and writes to the Huffman-coded output stream.
+	 * @param symbol the symbol to encode, which is non-negative and must be in the range of the code tree
+	 * @throws IOException if an I/O exception occurred
+	 * @throws NullPointerException if the current code tree is {@code null}
+	 */
 	public void write(int symbol) throws IOException {
 		if (codeTree == null)
 			throw new NullPointerException("Code tree is null");

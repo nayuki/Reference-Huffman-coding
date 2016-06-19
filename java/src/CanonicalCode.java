@@ -54,6 +54,7 @@ public final class CanonicalCode {
 	}
 	
 	
+	// Recursive helper method for a constructor.
 	private void buildCodeLengths(Node node, int depth) {
 		if (node instanceof InternalNode) {
 			InternalNode internalNode = (InternalNode)node;
@@ -111,6 +112,7 @@ public final class CanonicalCode {
 	}
 	
 	
+	// Returns the maximum value in the given array.
 	private static int max(int[] array) {
 		int result = array[0];
 		for (int x : array)

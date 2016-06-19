@@ -9,6 +9,7 @@
 
 /**
  * An internal node in a code tree. It has two nodes as children. Immutable.
+ * @see CodeTree
  */
 public final class InternalNode extends Node {
 	

@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * A binary tree where each leaf codes a symbol, for representing Huffman codes. Immutable.
+ * @see FrequencyTable
  */
 /*
  * There are two main uses of a CodeTree:

@@ -9,16 +9,29 @@
 import java.io.IOException;
 
 
+/**
+ * Reads from a Huffman-coded bit stream and decodes symbols.
+ * @see HuffmanEncoder
+ */
 public final class HuffmanDecoder {
 	
+	// The underlying bit input stream.
 	private BitInputStream input;
 	
-	// Must be initialized before calling read().
-	// The code tree can be changed after each symbol decoded, as long as the encoder and decoder have the same code tree at the same time.
+	/**
+	 * The code tree to use in the next {@link#read()} operation. Must be given a non-{@code null}
+	 * value before calling read(). The tree can be changed after each symbol decoded, as long
+	 * as the encoder and decoder have the same tree at the same point in the code stream.
+	 */
 	public CodeTree codeTree;
 	
 	
 	
+	/**
+	 * Constructs a Huffman decoder based on the specified bit input stream.
+	 * @param in the bit input stream to read from
+	 * @throws NullPointerException if the input stream is {@code null}
+	 */
 	public HuffmanDecoder(BitInputStream in) {
 		if (in == null)
 			throw new NullPointerException();
@@ -27,6 +40,13 @@ public final class HuffmanDecoder {
 	
 	
 	
+	/**
+	 * Reads from the input stream to decode the next Huffman-coded symbol.
+	 * @return the next symbol in the stream, which is non-negative
+	 * @throws IOException if an I/O exception occurred
+	 * @throws EOFException if the end of stream was reached before a symbol was decoded
+	 * @throws NullPointerException if the current code tree is {@code null}
+	 */
 	public int read() throws IOException {
 		if (codeTree == null)
 			throw new NullPointerException("Code tree is null");
