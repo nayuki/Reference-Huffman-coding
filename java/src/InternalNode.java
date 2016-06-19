@@ -19,11 +19,11 @@ public final class InternalNode extends Node {
 	
 	
 	
-	public InternalNode(Node leftChild, Node rightChild) {
-		if (leftChild == null || rightChild == null)
-			throw new NullPointerException("Argument is null");
-		this.leftChild = leftChild;
-		this.rightChild = rightChild;
+	public InternalNode(Node left, Node right) {
+		if (left == null || right == null)
+			throw new NullPointerException();
+		leftChild = left;
+		rightChild = right;
 	}
 	
 }
