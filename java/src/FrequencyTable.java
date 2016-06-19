@@ -100,9 +100,9 @@ public final class FrequencyTable {
 			NodeWithFrequency nf1 = pqueue.remove();
 			NodeWithFrequency nf2 = pqueue.remove();
 			pqueue.add(new NodeWithFrequency(
-					new InternalNode(nf1.node, nf2.node),
-					Math.min(nf1.lowestSymbol, nf2.lowestSymbol),
-					nf1.frequency + nf2.frequency));
+				new InternalNode(nf1.node, nf2.node),
+				Math.min(nf1.lowestSymbol, nf2.lowestSymbol),
+				nf1.frequency + nf2.frequency));
 		}
 		
 		// Return the remaining node

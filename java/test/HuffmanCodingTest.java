@@ -8,11 +8,9 @@
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
-
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Random;
-
 import org.junit.Test;
 
 
