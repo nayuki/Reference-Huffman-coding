@@ -31,9 +31,9 @@ public final class HuffmanCompress {
 		
 		// Read input file once to compute symbol frequencies
 		// The resulting generated code is optimal for static Huffman coding and also canonical
-		FrequencyTable freq = getFrequencies(inputFile);
-		freq.increment(256);  // EOF symbol gets a frequency of 1
-		CodeTree code = freq.buildCodeTree();
+		FrequencyTable freqs = getFrequencies(inputFile);
+		freqs.increment(256);  // EOF symbol gets a frequency of 1
+		CodeTree code = freqs.buildCodeTree();
 		CanonicalCode canonCode = new CanonicalCode(code, 257);
 		code = canonCode.toCodeTree();  // Replace code tree with canonical one. For each symbol, the code value may change but the code length stays the same.
 		
@@ -51,19 +51,19 @@ public final class HuffmanCompress {
 	
 	
 	private static FrequencyTable getFrequencies(File file) throws IOException {
-		FrequencyTable freq = new FrequencyTable(new int[257]);
+		FrequencyTable freqs = new FrequencyTable(new int[257]);
 		InputStream input = new BufferedInputStream(new FileInputStream(file));
 		try {
 			while (true) {
 				int b = input.read();
 				if (b == -1)
 					break;
-				freq.increment(b);
+				freqs.increment(b);
 			}
 		} finally {
 			input.close();
 		}
-		return freq;
+		return freqs;
 	}
 	
 	

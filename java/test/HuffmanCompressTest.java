@@ -20,8 +20,8 @@ public class HuffmanCompressTest extends HuffmanCodingTest {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		BitOutputStream bitOut = new BitOutputStream(out);
 		
-		FrequencyTable freq = getFrequencies(b);
-		CodeTree code = freq.buildCodeTree();
+		FrequencyTable freqs = getFrequencies(b);
+		CodeTree code = freqs.buildCodeTree();
 		CanonicalCode canonCode = new CanonicalCode(code, 257);
 		code = canonCode.toCodeTree();
 		HuffmanCompress.writeCode(bitOut, canonCode);
@@ -44,11 +44,11 @@ public class HuffmanCompressTest extends HuffmanCodingTest {
 	
 	
 	private static FrequencyTable getFrequencies(byte[] b) {
-		FrequencyTable freq = new FrequencyTable(new int[257]);
+		FrequencyTable freqs = new FrequencyTable(new int[257]);
 		for (byte x : b)
-			freq.increment(x & 0xFF);
-		freq.increment(256);  // EOF symbol gets a frequency of 1
-		return freq;
+			freqs.increment(x & 0xFF);
+		freqs.increment(256);  // EOF symbol gets a frequency of 1
+		return freqs;
 	}
 	
 }
