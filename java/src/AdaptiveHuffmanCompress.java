@@ -19,17 +19,16 @@ import java.util.Arrays;
 public final class AdaptiveHuffmanCompress {
 	
 	public static void main(String[] args) throws IOException {
-		// Show what command line arguments to use
-		if (args.length == 0) {
+		// Handle command line arguments
+		if (args.length != 2) {
 			System.err.println("Usage: java AdaptiveHuffmanCompress InputFile OutputFile");
 			System.exit(1);
 			return;
 		}
-		
-		// Otherwise, compress
-		File inputFile = new File(args[0]);
+		File inputFile  = new File(args[0]);
 		File outputFile = new File(args[1]);
 		
+		// Perform file compression
 		InputStream in = new BufferedInputStream(new FileInputStream(inputFile));
 		BitOutputStream out = new BitOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile)));
 		try {
@@ -41,6 +40,7 @@ public final class AdaptiveHuffmanCompress {
 	}
 	
 	
+	// To allow unit testing, this method is package-private instead of private.
 	static void compress(InputStream in, BitOutputStream out) throws IOException {
 		int[] initFreqs = new int[257];
 		Arrays.fill(initFreqs, 1);
@@ -67,7 +67,7 @@ public final class AdaptiveHuffmanCompress {
 	
 	
 	private static boolean isPowerOf2(int x) {
-		return x > 0 && (x & -x) == x;
+		return x > 0 && Integer.bitCount(x) == 1;
 	}
 	
 }

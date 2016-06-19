@@ -19,17 +19,16 @@ import java.io.OutputStream;
 public final class HuffmanDecompress {
 	
 	public static void main(String[] args) throws IOException {
-		// Show what command line arguments to use
-		if (args.length == 0) {
+		// Handle command line arguments
+		if (args.length != 2) {
 			System.err.println("Usage: java HuffmanDecompress InputFile OutputFile");
 			System.exit(1);
 			return;
 		}
-		
-		// Otherwise, decompress
-		File inputFile = new File(args[0]);
+		File inputFile  = new File(args[0]);
 		File outputFile = new File(args[1]);
 		
+		// Perform file decompression
 		BitInputStream in = new BitInputStream(new BufferedInputStream(new FileInputStream(inputFile)));
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
 		try {
@@ -56,6 +55,7 @@ public final class HuffmanDecompress {
 	}
 	
 	
+	// To allow unit testing, this method is package-private instead of private.
 	static void decompress(CodeTree code, BitInputStream in, OutputStream out) throws IOException {
 		HuffmanDecoder dec = new HuffmanDecoder(in);
 		dec.codeTree = code;

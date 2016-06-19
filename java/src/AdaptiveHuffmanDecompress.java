@@ -19,17 +19,16 @@ import java.util.Arrays;
 public final class AdaptiveHuffmanDecompress {
 	
 	public static void main(String[] args) throws IOException {
-		// Show what command line arguments to use
-		if (args.length == 0) {
+		// Handle command line arguments
+		if (args.length != 2) {
 			System.err.println("Usage: java AdaptiveHuffmanDecompress InputFile OutputFile");
 			System.exit(1);
 			return;
 		}
-		
-		// Otherwise, decompress
-		File inputFile = new File(args[0]);
+		File inputFile  = new File(args[0]);
 		File outputFile = new File(args[1]);
 		
+		// Perform file decompression
 		BitInputStream in = new BitInputStream(new BufferedInputStream(new FileInputStream(inputFile)));
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
 		try {
@@ -41,6 +40,7 @@ public final class AdaptiveHuffmanDecompress {
 	}
 	
 	
+	// To allow unit testing, this method is package-private instead of private.
 	static void decompress(BitInputStream in, OutputStream out) throws IOException {
 		int[] initFreqs = new int[257];
 		Arrays.fill(initFreqs, 1);
@@ -66,7 +66,7 @@ public final class AdaptiveHuffmanDecompress {
 	
 	
 	private static boolean isPowerOf2(int x) {
-		return x > 0 && (x & -x) == x;
+		return x > 0 && Integer.bitCount(x) == 1;
 	}
 	
 }

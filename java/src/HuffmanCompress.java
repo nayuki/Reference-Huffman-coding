@@ -20,15 +20,13 @@ import java.io.InputStream;
 public final class HuffmanCompress {
 	
 	public static void main(String[] args) throws IOException {
-		// Show what command line arguments to use
-		if (args.length == 0) {
+		// Handle command line arguments
+		if (args.length != 2) {
 			System.err.println("Usage: java HuffmanCompress InputFile OutputFile");
 			System.exit(1);
 			return;
 		}
-		
-		// Otherwise, compress
-		File inputFile = new File(args[0]);
+		File inputFile  = new File(args[0]);
 		File outputFile = new File(args[1]);
 		
 		// Read input file once to compute symbol frequencies
@@ -69,6 +67,7 @@ public final class HuffmanCompress {
 	}
 	
 	
+	// To allow unit testing, this method is package-private instead of private.
 	static void writeCode(BitOutputStream out, CanonicalCode canonCode) throws IOException {
 		for (int i = 0; i < canonCode.getSymbolLimit(); i++) {
 			int val = canonCode.getCodeLength(i);
