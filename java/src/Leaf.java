@@ -19,7 +19,7 @@ public final class Leaf extends Node {
 	
 	public Leaf(int symbol) {
 		if (symbol < 0)
-			throw new IllegalArgumentException("Illegal symbol value");
+			throw new IllegalArgumentException("Symbol value must be non-negative");
 		this.symbol = symbol;
 	}
 	
