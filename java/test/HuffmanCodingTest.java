@@ -16,26 +16,22 @@ import org.junit.Test;
 
 public abstract class HuffmanCodingTest {
 	
-	@Test
-	public void testEmpty() {
+	@Test public void testEmpty() {
 		test(new byte[0]);
 	}
 	
 	
-	@Test
-	public void testOneSymbol() {
+	@Test public void testOneSymbol() {
 		test(new byte[10]);
 	}
 	
 	
-	@Test
-	public void testSimple() {
+	@Test public void testSimple() {
 		test(new byte[]{0, 3, 1, 2});
 	}
 	
 	
-	@Test
-	public void testEveryByteValue() {
+	@Test public void testEveryByteValue() {
 		byte[] b = new byte[256];
 		for (int i = 0; i < b.length; i++)
 			b[i] = (byte)i;
@@ -43,8 +39,7 @@ public abstract class HuffmanCodingTest {
 	}
 	
 	
-	@Test
-	public void testFibonacciFrequencies() {
+	@Test public void testFibonacciFrequencies() {
 		byte[] b = new byte[87];
 		int i = 0;
 		for (int j = 0; j <  1; j++, i++) b[i] = 0;
@@ -59,8 +54,7 @@ public abstract class HuffmanCodingTest {
 	}
 	
 	
-	@Test
-	public void testRandomShort() {
+	@Test public void testRandomShort() {
 		for (int i = 0; i < 100; i++) {
 			byte[] b = new byte[random.nextInt(1000)];
 			random.nextBytes(b);
@@ -69,8 +63,7 @@ public abstract class HuffmanCodingTest {
 	}
 	
 	
-	@Test
-	public void testRandomLong() {
+	@Test public void testRandomLong() {
 		for (int i = 0; i < 3; i++) {
 			byte[] b = new byte[random.nextInt(1000000)];
 			random.nextBytes(b);
