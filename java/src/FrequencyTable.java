@@ -45,25 +45,29 @@ public final class FrequencyTable {
 	
 	
 	public int get(int symbol) {
-		if (symbol < 0 || symbol >= frequencies.length)
-			throw new IllegalArgumentException("Symbol out of range");
+		checkSymbol(symbol);
 		return frequencies[symbol];
 	}
 	
 	
 	public void set(int symbol, int freq) {
-		if (symbol < 0 || symbol >= frequencies.length)
-			throw new IllegalArgumentException("Symbol out of range");
+		checkSymbol(symbol);
 		frequencies[symbol] = freq;
 	}
 	
 	
 	public void increment(int symbol) {
-		if (symbol < 0 || symbol >= frequencies.length)
-			throw new IllegalArgumentException("Symbol out of range");
+		checkSymbol(symbol);
 		if (frequencies[symbol] == Integer.MAX_VALUE)
 			throw new RuntimeException("Arithmetic overflow");
 		frequencies[symbol]++;
+	}
+	
+	
+	// Returns silently if 0 <= symbol < frequencies.length, otherwise throws an exception
+	private void checkSymbol(int symbol) {
+		if (symbol < 0 || symbol >= frequencies.length)
+			throw new IllegalArgumentException("Symbol out of range");
 	}
 	
 	
