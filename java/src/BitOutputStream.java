@@ -29,7 +29,7 @@ public final class BitOutputStream {
 	// Creates a bit output stream based on the given byte output stream.
 	public BitOutputStream(OutputStream out) {
 		if (out == null)
-			throw new NullPointerException("Argument is null");
+			throw new NullPointerException();
 		output = out;
 		currentByte = 0;
 		numBitsInCurrentByte = 0;

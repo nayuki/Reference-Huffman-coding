@@ -32,7 +32,7 @@ public final class BitInputStream {
 	// Creates a bit input stream based on the given byte input stream.
 	public BitInputStream(InputStream in) {
 		if (in == null)
-			throw new NullPointerException("Argument is null");
+			throw new NullPointerException();
 		input = in;
 		numBitsRemaining = 0;
 		isEndOfStream = false;
@@ -63,7 +63,7 @@ public final class BitInputStream {
 		if (result != -1)
 			return result;
 		else
-			throw new EOFException("End of stream reached");
+			throw new EOFException();
 	}
 	
 	

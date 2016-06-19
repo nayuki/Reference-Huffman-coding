@@ -22,7 +22,7 @@ public final class HuffmanEncoder {
 	
 	public HuffmanEncoder(BitOutputStream out) {
 		if (out == null)
-			throw new NullPointerException("Argument is null");
+			throw new NullPointerException();
 		output = out;
 	}
 	

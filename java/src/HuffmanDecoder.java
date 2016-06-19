@@ -21,7 +21,7 @@ public final class HuffmanDecoder {
 	
 	public HuffmanDecoder(BitInputStream in) {
 		if (in == null)
-			throw new NullPointerException("Argument is null");
+			throw new NullPointerException();
 		input = in;
 	}
 	
