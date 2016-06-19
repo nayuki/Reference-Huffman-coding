@@ -21,7 +21,7 @@ public final class BitInputStream {
 	private InputStream input;
 	
 	// Either in the range 0x00 to 0xFF if bits are available, or is -1 if the end of stream is reached.
-	private int nextBits;
+	private int currentByte;
 	
 	// Always between 0 and 7, inclusive.
 	private int numBitsRemaining;
@@ -46,15 +46,15 @@ public final class BitInputStream {
 		if (isEndOfStream)
 			return -1;
 		if (numBitsRemaining == 0) {
-			nextBits = input.read();
-			if (nextBits == -1) {
+			currentByte = input.read();
+			if (currentByte == -1) {
 				isEndOfStream = true;
 				return -1;
 			}
 			numBitsRemaining = 8;
 		}
 		numBitsRemaining--;
-		return (nextBits >>> numBitsRemaining) & 1;
+		return (currentByte >>> numBitsRemaining) & 1;
 	}
 	
 	

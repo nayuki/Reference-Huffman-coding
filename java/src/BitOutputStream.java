@@ -23,7 +23,7 @@ public final class BitOutputStream {
 	private int currentByte;
 	
 	// The number of accumulated bits in the current byte. Always between 0 and 7 (inclusive).
-	private int numBitsInCurrentByte;
+	private int numBitsFilled;
 	
 	
 	
@@ -33,7 +33,7 @@ public final class BitOutputStream {
 			throw new NullPointerException();
 		output = out;
 		currentByte = 0;
-		numBitsInCurrentByte = 0;
+		numBitsFilled = 0;
 	}
 	
 	
@@ -43,10 +43,10 @@ public final class BitOutputStream {
 		if (!(b == 0 || b == 1))
 			throw new IllegalArgumentException("Argument must be 0 or 1");
 		currentByte = currentByte << 1 | b;
-		numBitsInCurrentByte++;
-		if (numBitsInCurrentByte == 8) {
+		numBitsFilled++;
+		if (numBitsFilled == 8) {
 			output.write(currentByte);
-			numBitsInCurrentByte = 0;
+			numBitsFilled = 0;
 		}
 	}
 	
@@ -54,7 +54,7 @@ public final class BitOutputStream {
 	// Closes this stream and the underlying OutputStream. If called when this bit stream is not at a byte boundary,
 	// then the minimum number of "0" bits (between 0 and 7 of them) are written as padding to reach the next byte boundary.
 	public void close() throws IOException {
-		while (numBitsInCurrentByte != 0)
+		while (numBitsFilled != 0)
 			write(0);
 		output.close();
 	}

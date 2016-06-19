@@ -168,10 +168,10 @@ public final class FrequencyTable {
 		public final long frequency;  // Using long prevents overflow
 		
 		
-		public NodeWithFrequency(Node node, int lowestSymbol, long freq) {
-			this.node = node;
-			this.lowestSymbol = lowestSymbol;
-			this.frequency = freq;
+		public NodeWithFrequency(Node nd, int lowSym, long freq) {
+			node = nd;
+			lowestSymbol = lowSym;
+			frequency = freq;
 		}
 		
 		
