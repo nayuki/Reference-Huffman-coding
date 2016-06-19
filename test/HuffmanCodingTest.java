@@ -1,5 +1,3 @@
-package nayuki.huffmancoding;
-
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 

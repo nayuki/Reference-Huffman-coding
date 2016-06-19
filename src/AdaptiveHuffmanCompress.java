@@ -1,33 +1,31 @@
-package nayuki.huffmancoding;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.util.Arrays;
 
 
-public final class AdaptiveHuffmanDecompress {
+public final class AdaptiveHuffmanCompress {
 	
 	public static void main(String[] args) throws IOException {
 		// Show what command line arguments to use
 		if (args.length == 0) {
-			System.err.println("Usage: java AdaptiveHuffmanDecompress InputFile OutputFile");
+			System.err.println("Usage: java AdaptiveHuffmanCompress InputFile OutputFile");
 			System.exit(1);
 			return;
 		}
 		
-		// Otherwise, decompress
+		// Otherwise, compress
 		File inputFile = new File(args[0]);
 		File outputFile = new File(args[1]);
 		
-		BitInputStream in = new BitInputStream(new BufferedInputStream(new FileInputStream(inputFile)));
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
+		InputStream in = new BufferedInputStream(new FileInputStream(inputFile));
+		BitOutputStream out = new BitOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile)));
 		try {
-			decompress(in, out);
+			compress(in, out);
 		} finally {
 			out.close();
 			in.close();
@@ -35,27 +33,28 @@ public final class AdaptiveHuffmanDecompress {
 	}
 	
 	
-	static void decompress(BitInputStream in, OutputStream out) throws IOException {
+	static void compress(InputStream in, BitOutputStream out) throws IOException {
 		int[] initFreqs = new int[257];
 		Arrays.fill(initFreqs, 1);
 		
 		FrequencyTable freqTable = new FrequencyTable(initFreqs);
-		HuffmanDecoder dec = new HuffmanDecoder(in);
-		dec.codeTree = freqTable.buildCodeTree();
+		HuffmanEncoder enc = new HuffmanEncoder(out);
+		enc.codeTree = freqTable.buildCodeTree();  // We don't need to make a canonical code since we don't transmit the code tree
 		int count = 0;
 		while (true) {
-			int symbol = dec.read();
-			if (symbol == 256)  // EOF symbol
+			int b = in.read();
+			if (b == -1)
 				break;
-			out.write(symbol);
+			enc.write(b);
 			
-			freqTable.increment(symbol);
+			freqTable.increment(b);
 			count++;
 			if (count < 262144 && isPowerOf2(count) || count % 262144 == 0)  // Update code tree
-				dec.codeTree = freqTable.buildCodeTree();
+				enc.codeTree = freqTable.buildCodeTree();
 			if (count % 262144 == 0)  // Reset frequency table
 				freqTable = new FrequencyTable(initFreqs);
 		}
+		enc.write(256);  // EOF
 	}
 	
 	

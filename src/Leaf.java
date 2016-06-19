@@ -1,6 +1,3 @@
-package nayuki.huffmancoding;
-
-
 /**
  * A leaf node in a code tree. It has a symbol value. Immutable.
  */
