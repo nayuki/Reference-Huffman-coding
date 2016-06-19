@@ -40,7 +40,7 @@ public final class BitOutputStream {
 	
 	// Writes a bit to the stream. The specified bit must be 0 or 1.
 	public void write(int b) throws IOException {
-		if (!(b == 0 || b == 1))
+		if (b != 0 && b != 1)
 			throw new IllegalArgumentException("Argument must be 0 or 1");
 		currentByte = currentByte << 1 | b;
 		numBitsFilled++;

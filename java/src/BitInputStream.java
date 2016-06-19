@@ -26,7 +26,6 @@ public final class BitInputStream {
 	// Always between 0 and 7, inclusive.
 	private int numBitsRemaining;
 	
-	private boolean isEndOfStream;
 	
 	
 	
@@ -35,24 +34,24 @@ public final class BitInputStream {
 		if (in == null)
 			throw new NullPointerException();
 		input = in;
+		currentByte = 0;
 		numBitsRemaining = 0;
-		isEndOfStream = false;
 	}
 	
 	
 	
 	// Reads a bit from the stream. Returns 0 or 1 if a bit is available, or -1 if the end of stream is reached. The end of stream always occurs on a byte boundary.
 	public int read() throws IOException {
-		if (isEndOfStream)
+		if (currentByte == -1)
 			return -1;
 		if (numBitsRemaining == 0) {
 			currentByte = input.read();
-			if (currentByte == -1) {
-				isEndOfStream = true;
+			if (currentByte == -1)
 				return -1;
-			}
 			numBitsRemaining = 8;
 		}
+		if (numBitsRemaining <= 0)
+			throw new AssertionError();
 		numBitsRemaining--;
 		return (currentByte >>> numBitsRemaining) & 1;
 	}
@@ -71,6 +70,8 @@ public final class BitInputStream {
 	// Closes this stream and the underlying InputStream.
 	public void close() throws IOException {
 		input.close();
+		currentByte = -1;
+		numBitsRemaining = 0;
 	}
 	
 }

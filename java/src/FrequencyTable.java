@@ -81,6 +81,8 @@ public final class FrequencyTable {
 	 */
 	public void set(int symbol, int freq) {
 		checkSymbol(symbol);
+		if (freq < 0)
+			throw new IllegalArgumentException("Negative frequency");
 		frequencies[symbol] = freq;
 	}
 	
@@ -94,7 +96,7 @@ public final class FrequencyTable {
 	public void increment(int symbol) {
 		checkSymbol(symbol);
 		if (frequencies[symbol] == Integer.MAX_VALUE)
-			throw new RuntimeException("Arithmetic overflow");
+			throw new IllegalStateException("Maximum frequency reached");
 		frequencies[symbol]++;
 	}
 	
