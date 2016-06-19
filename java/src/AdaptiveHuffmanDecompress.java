@@ -48,7 +48,7 @@ public final class AdaptiveHuffmanDecompress {
 		FrequencyTable freqs = new FrequencyTable(initFreqs);
 		HuffmanDecoder dec = new HuffmanDecoder(in);
 		dec.codeTree = freqs.buildCodeTree();
-		int count = 0;
+		int count = 0;  // Number of bytes written to the output file
 		while (true) {
 			int symbol = dec.read();
 			if (symbol == 256)  // EOF symbol

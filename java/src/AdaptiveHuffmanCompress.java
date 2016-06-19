@@ -48,7 +48,7 @@ public final class AdaptiveHuffmanCompress {
 		FrequencyTable freqs = new FrequencyTable(initFreqs);
 		HuffmanEncoder enc = new HuffmanEncoder(out);
 		enc.codeTree = freqs.buildCodeTree();  // We don't need to make a canonical code since we don't transmit the code tree
-		int count = 0;
+		int count = 0;  // Number of bytes read from the input file
 		while (true) {
 			int b = in.read();
 			if (b == -1)

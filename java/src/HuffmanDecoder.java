@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public final class HuffmanDecoder {
 	
-	// The underlying bit input stream.
+	// The underlying bit input stream (not null).
 	private BitInputStream input;
 	
 	/**

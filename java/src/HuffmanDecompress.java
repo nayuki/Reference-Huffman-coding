@@ -42,6 +42,7 @@ public final class HuffmanDecompress {
 	}
 	
 	
+	// To allow unit testing, this method is package-private instead of private.
 	static CanonicalCode readCode(BitInputStream in) throws IOException {
 		int[] codeLengths = new int[257];
 		for (int i = 0; i < codeLengths.length; i++) {

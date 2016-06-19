@@ -59,10 +59,11 @@ public final class CodeTree {
 		codes = new ArrayList<List<Integer>>();  // Initially all null
 		for (int i = 0; i < symbolLimit; i++)
 			codes.add(null);
-		buildCodeList(root, new ArrayList<Integer>());  // Fills 'codes' with appropriate data
+		buildCodeList(root, new ArrayList<Integer>());  // Fill 'codes' with appropriate data
 	}
 	
 	
+	// Recursive helper function for the constructor
 	private void buildCodeList(Node node, List<Integer> prefix) {
 		if (node instanceof InternalNode) {
 			InternalNode internalNode = (InternalNode)node;
@@ -90,6 +91,12 @@ public final class CodeTree {
 	
 	
 	
+	/**
+	 * Returns the Huffman code for the specified symbol, which is a list of 0s and 1s.
+	 * @param symbol the symbol to query
+	 * @return a list of 0s and 1s, of length at least 1
+	 * @throws IllegalArgumentException if the symbol is negative, or no Huffman code exists for it (e.g. because it had a zero frequency)
+	 */
 	public List<Integer> getCode(int symbol) {
 		if (symbol < 0)
 			throw new IllegalArgumentException("Illegal symbol");
@@ -100,7 +107,11 @@ public final class CodeTree {
 	}
 	
 	
-	// Returns a string showing all the codes in this tree. The format is subject to change. Useful for debugging.
+	/**
+	 * Returns a string representation of this code tree,
+	 * useful for debugging only, and the format is subject to change.
+	 * @return a string representation of this code tree
+	 */
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		toString("", root, sb);
@@ -108,6 +119,7 @@ public final class CodeTree {
 	}
 	
 	
+	// Recursive helper function for toString()
 	private static void toString(String prefix, Node node, StringBuilder sb) {
 		if (node instanceof InternalNode) {
 			InternalNode internalNode = (InternalNode)node;

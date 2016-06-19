@@ -50,6 +50,8 @@ public final class HuffmanCompress {
 	}
 	
 	
+	// Returns a frequency table based on the bytes in the given file.
+	// Also contains an extra entry for symbol 256, whose frequency is set to 0.
 	private static FrequencyTable getFrequencies(File file) throws IOException {
 		FrequencyTable freqs = new FrequencyTable(new int[257]);
 		InputStream input = new BufferedInputStream(new FileInputStream(file));
@@ -82,6 +84,7 @@ public final class HuffmanCompress {
 	}
 	
 	
+	// To allow unit testing, this method is package-private instead of private.
 	static void compress(CodeTree code, InputStream in, BitOutputStream out) throws IOException {
 		HuffmanEncoder enc = new HuffmanEncoder(out);
 		enc.codeTree = code;

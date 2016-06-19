@@ -11,20 +11,31 @@ import java.util.Queue;
 
 
 /**
- * A table of symbol frequencies. Mutable.
- */
-/*
- * A FrequencyTable is mainly used like this:
- * - Collect the frequencies of symbols in the stream that we want to compress.
- * - Build a code tree that is statically optimal for the current frequencies.
- * This implementation correctly builds an optimal code tree for any legal number of symbols (2 to Integer.MAX_VALUE), with each symbol having a legal frequency (0 to Integer.MAX_VALUE). It is designed not to err due to overflow.
+ * A table of symbol frequencies. Mutable and not thread-safe. Symbols are numbered from 0 to symbolLimit&minus;1.
+ * <p>A frequency table is mainly used like this:</p>
+ * <ol>
+ *   <li>Collect the frequencies of symbols in the stream that we want to compress.</li>
+ *   <li>Build a code tree that is statically optimal for the current frequencies.</li>
+ * </ol>
+ * <p>This implementation correctly builds an optimal code tree for any legal number of
+ * symbols (2 to {@code Integer.MAX_VALUE}), with each symbol having a legal frequency
+ * (0 to {@code Integer.MAX_VALUE}). It is designed to avoid arithmetic overflow.</p>
  */
 public final class FrequencyTable {
 	
-	private int[] frequencies;  // Length at least 2, and every element is non-negative
+	/* Fields and constructors */
+	
+	// Length at least 2, and every element is non-negative
+	private int[] frequencies;
 	
 	
-	
+	/**
+	 * Constructs a frequency table from the specified array of frequencies.
+	 * The array length must be at least 2, and each value must be non-negative.
+	 * @param freqs the array of frequencies
+	 * @throws NullPointerException if the array is {@code null}
+	 * @throws IllegalArgumentException if the array length is less than 2 or any value is negative
+	 */
 	public FrequencyTable(int[] freqs) {
 		if (freqs == null)
 			throw new NullPointerException();
@@ -39,23 +50,47 @@ public final class FrequencyTable {
 	
 	
 	
+	/* Basic methods */
+	
+	/**
+	 * Returns the number of symbols in this frequency table. The result is always at least 2.
+	 * @return the number of symbols in this frequency table
+	 */
 	public int getSymbolLimit() {
 		return frequencies.length;
 	}
 	
 	
+	/**
+	 * Returns the frequency of the specified symbol in this frequency table. The result is always non-negative.
+	 * @param symbol the symbol to query
+	 * @return the frequency of the specified symbol
+	 * @throws IllegalArgumentException if the symbol is out of range
+	 */
 	public int get(int symbol) {
 		checkSymbol(symbol);
 		return frequencies[symbol];
 	}
 	
 	
+	/**
+	 * Sets the frequency of the specified symbol in this frequency table to the specified value.
+	 * @param symbol the symbol whose frequency will be modified
+	 * @param freq the frequency to set it to, which must be non-negative
+	 * @throws IllegalArgumentException if the symbol is out of range or the frequency is negative
+	 */
 	public void set(int symbol, int freq) {
 		checkSymbol(symbol);
 		frequencies[symbol] = freq;
 	}
 	
 	
+	/**
+	 * Increments the frequency of the specified symbol in this frequency table.
+	 * @param symbol the symbol whose frequency will be incremented
+	 * @throws IllegalArgumentException if the symbol is out of range
+	 * @throws IllegalStateException if the symbol already has the maximum allowed frequency of {@code Integer.MAX_VALUE}
+	 */
 	public void increment(int symbol) {
 		checkSymbol(symbol);
 		if (frequencies[symbol] == Integer.MAX_VALUE)
@@ -71,7 +106,11 @@ public final class FrequencyTable {
 	}
 	
 	
-	// Returns a string showing all the symbols and frequencies. The format is subject to change. Useful for debugging.
+	/**
+	 * Returns a string representation of this frequency table,
+	 * useful for debugging only, and the format is subject to change.
+	 * @return a string representation of this frequency table
+	 */
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < frequencies.length; i++)
@@ -80,7 +119,14 @@ public final class FrequencyTable {
 	}
 	
 	
-	// Returns a code tree that is optimal for these frequencies. Always contains at least 2 symbols, to avoid degenerate trees.
+	
+	/* Advanced methods */
+	
+	/**
+	 * Returns a code tree that is optimal for the symbol frequencies in this table. The tree always contains at least 2 leaves
+	 * (even if they come from symbols with 0 frequency), to avoid degenerate trees. Note that optimal trees are not unique.
+	 * @return an optimal code tree for this frequency table
+	 */
 	public CodeTree buildCodeTree() {
 		// Note that if two nodes have the same frequency, then the tie is broken by which tree contains the lowest symbol. Thus the algorithm is not dependent on how the queue breaks ties.
 		Queue<NodeWithFrequency> pqueue = new PriorityQueue<NodeWithFrequency>();
@@ -114,13 +160,11 @@ public final class FrequencyTable {
 	}
 	
 	
-	
+	// Helper class for buildCodeTree()
 	private static class NodeWithFrequency implements Comparable<NodeWithFrequency> {
 		
 		public final Node node;
-		
 		public final int lowestSymbol;
-		
 		public final long frequency;  // Using long prevents overflow
 		
 		
@@ -131,6 +175,7 @@ public final class FrequencyTable {
 		}
 		
 		
+		// Sort by ascending frequency, breaking ties by ascending symbol value.
 		public int compareTo(NodeWithFrequency other) {
 			if (frequency < other.frequency)
 				return -1;

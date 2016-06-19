@@ -112,7 +112,7 @@ public final class CanonicalCode {
 	}
 	
 	
-	// Returns the maximum value in the given array.
+	// Returns the maximum value in the given array, which must have at least 1 element.
 	private static int max(int[] array) {
 		int result = array[0];
 		for (int x : array)

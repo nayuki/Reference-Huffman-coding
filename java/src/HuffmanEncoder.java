@@ -16,7 +16,7 @@ import java.util.List;
  */
 public final class HuffmanEncoder {
 	
-	// The underlying bit output stream.
+	// The underlying bit output stream (not null).
 	private BitOutputStream output;
 	
 	/**
