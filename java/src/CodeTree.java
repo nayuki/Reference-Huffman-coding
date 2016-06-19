@@ -1,3 +1,11 @@
+/* 
+ * Reference Huffman coding
+ * Copyright (c) Project Nayuki
+ * 
+ * https://www.nayuki.io/page/reference-huffman-coding
+ * https://github.com/nayuki/Reference-Huffman-coding
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 

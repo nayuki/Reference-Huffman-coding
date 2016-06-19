@@ -1,3 +1,11 @@
+/* 
+ * Reference Huffman coding
+ * Copyright (c) Project Nayuki
+ * 
+ * https://www.nayuki.io/page/reference-huffman-coding
+ * https://github.com/nayuki/Reference-Huffman-coding
+ */
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 
