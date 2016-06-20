@@ -58,10 +58,11 @@ public final class BitOutputStream {
 	public void write(int b) throws IOException {
 		if (b != 0 && b != 1)
 			throw new IllegalArgumentException("Argument must be 0 or 1");
-		currentByte = currentByte << 1 | b;
+		currentByte = (currentByte << 1) | b;
 		numBitsFilled++;
 		if (numBitsFilled == 8) {
 			output.write(currentByte);
+			currentByte = 0;
 			numBitsFilled = 0;
 		}
 	}

@@ -145,7 +145,7 @@ public final class FrequencyTable {
 		
 		// Pad with zero-frequency symbols until queue has at least 2 items
 		for (int i = 0; i < frequencies.length && pqueue.size() < 2; i++) {
-			if (i >= frequencies.length || frequencies[i] == 0)
+			if (frequencies[i] == 0)
 				pqueue.add(new NodeWithFrequency(new Leaf(i), i, 0));
 		}
 		if (pqueue.size() < 2)
