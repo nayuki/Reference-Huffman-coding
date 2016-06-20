@@ -105,7 +105,7 @@ public final class CanonicalCode {
 					newNodes.add(new Leaf(j));
 			}
 			
-			// Merge nodes from the previous deeper layer
+			// Merge pairs of nodes from the previous deeper layer
 			for (int j = 0; j < nodes.size(); j += 2)
 				newNodes.add(new InternalNode(nodes.get(j), nodes.get(j + 1)));
 			

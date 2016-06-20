@@ -54,7 +54,7 @@ public final class CodeTree {
 	public final InternalNode root;
 	
 	// Stores the code for each symbol, or null if the symbol has no code.
-	// For example, if symbol 5 has code 10011, then codes.get(5) is the list [1, 0, 0, 1, 1].
+	// For example, if symbol 5 has code 10011, then codes.get(5) is the list [1,0,0,1,1].
 	private List<List<Integer>> codes;
 	
 	

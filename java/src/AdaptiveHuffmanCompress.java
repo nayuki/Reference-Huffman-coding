@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 /**
  * Compression application using adaptive Huffman coding.
- * <p>Usage: java HuffmanCompress InputFile OutputFile</p>
+ * <p>Usage: java AdaptiveHuffmanCompress InputFile OutputFile</p>
  * <p>Then use the corresponding "AdaptiveHuffmanDecompress" application to recreate the original input file.</p>
  * <p>Note that the application starts with a flat frequency table of 257 symbols (all set to a frequency of 1),
  * collects statistics while bytes are being encoded, and regenerates the Huffman code periodically. The
