@@ -11,15 +11,16 @@ import java.util.Queue;
 
 
 /**
- * A table of symbol frequencies. Mutable and not thread-safe. Symbols are numbered from 0 to symbolLimit&minus;1.
- * <p>A frequency table is mainly used like this:</p>
+ * A table of symbol frequencies. Mutable and not thread-safe. Symbols values are
+ * numbered from 0 to symbolLimit&minus;1. A frequency table is mainly used like this:
  * <ol>
  *   <li>Collect the frequencies of symbols in the stream that we want to compress.</li>
  *   <li>Build a code tree that is statically optimal for the current frequencies.</li>
  * </ol>
- * <p>This implementation correctly builds an optimal code tree for any legal number of
- * symbols (2 to {@code Integer.MAX_VALUE}), with each symbol having a legal frequency
- * (0 to {@code Integer.MAX_VALUE}). It is designed to avoid arithmetic overflow.</p>
+ * <p>This implementation is designed to avoid arithmetic overflow - it correctly builds
+ * an optimal code tree for any legal number of symbols (2 to {@code Integer.MAX_VALUE}),
+ * with each symbol having a legal frequency (0 to {@code Integer.MAX_VALUE}).</p>
+ * @see CodeTree
  */
 public final class FrequencyTable {
 	
@@ -166,7 +167,7 @@ public final class FrequencyTable {
 	}
 	
 	
-	// Helper class for buildCodeTree()
+	// Helper structure for buildCodeTree()
 	private static class NodeWithFrequency implements Comparable<NodeWithFrequency> {
 		
 		public final Node node;

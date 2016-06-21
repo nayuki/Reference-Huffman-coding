@@ -69,7 +69,10 @@ class HuffmanDecoder(object):
 
 
 
-# A table of symbol frequencies. Symbols are numbered from 0 to symbolLimit-1.
+# A table of symbol frequencies. Mutable. Symbols values are numbered
+# from 0 to symbolLimit-1. A frequency table is mainly used like this:
+# 0. Collect the frequencies of symbols in the stream that we want to compress.
+# 1. Build a code tree that is statically optimal for the current frequencies.
 class FrequencyTable(object):
 	
 	# Constructs a frequency table from the given sequence of frequencies.
@@ -132,6 +135,9 @@ class FrequencyTable(object):
 		# Note that if two nodes have the same frequency, then the tie is broken
 		# by which tree contains the lowest symbol. Thus the algorithm has a
 		# deterministic output and does not rely on the queue to break ties.
+		# Each item in the priority queue is a tuple of type (int frequency,
+		# int lowestSymbol, Node node). As per Python rules, tuples are ordered asceding
+		# by the lowest differing index, e.g. (0, 0) < (0, 1) < (0, 2) < (1, 0) < (1, 1).
 		pqueue = []
 		
 		# Add leaves for symbols with non-zero frequency
@@ -159,9 +165,29 @@ class FrequencyTable(object):
 
 
 
-# A binary tree that represents a mapping between symbols and binary strings. Each encodable
-# symbol is represented as a leaf node, and the path from the root to a leaf represents
-# the binary string associated with the symbol.
+# A binary tree that represents a mapping between symbols
+# and binary strings. There are two main uses of a code tree:
+# - Read the root field and walk through the tree to extract the desired information.
+# - Call getCode() to get the binary code for a particular encodable symbol.
+# The path to a leaf node determines the leaf's symbol's code. Starting from the root, going
+# to the left child represents a 0, and going to the right child represents a 1. Constraints:
+# - The root must be an internal node, and the tree is finite.
+# - No symbol value is found in more than one leaf.
+# - Not every possible symbol value needs to be in the tree.
+# Illustrated example:
+#   Huffman codes:
+#     0: Symbol A
+#     10: Symbol B
+#     110: Symbol C
+#     111: Symbol D
+#   Code tree:
+#       .
+#      / \
+#     A   .
+#        / \
+#       B   .
+#          / \
+#         C   D
 class CodeTree(object):
 	
 	# Constructs a code tree from the given tree of nodes and given symbol limit.
@@ -238,14 +264,55 @@ class Leaf(Node):
 
 
 
-# A canonical Huffman code only describes the code length of each symbol. The codes can
-# be reconstructed from this information. In this implementation, symbols with lower code
-# lengths, breaking ties by lower symbols, are assigned lexicographically lower codes.
+# A canonical Huffman code, which only describes the code length
+# of each symbol. Code length 0 means no code for the symbol.
+# The binary codes for each symbol can be reconstructed from the length information.
+# In this implementation, lexicographically lower binary codes are assigned to symbols
+# with lower code lengths, breaking ties by lower symbol values. For example:
+#   Code lengths (canonical code):
+#     Symbol A: 1
+#     Symbol B: 3
+#     Symbol C: 0 (no code)
+#     Symbol D: 2
+#     Symbol E: 3
+#   Sorted lengths and symbols:
+#     Symbol A: 1
+#     Symbol D: 2
+#     Symbol B: 3
+#     Symbol E: 3
+#     Symbol C: 0 (no code)
+#   Generated Huffman codes:
+#     Symbol A: 0
+#     Symbol D: 10
+#     Symbol B: 110
+#     Symbol E: 111
+#     Symbol C: None
+#   Huffman codes sorted by symbol:
+#     Symbol A: 0
+#     Symbol B: 110
+#     Symbol C: None
+#     Symbol D: 10
+#     Symbol E: 111
 class CanonicalCode(object):
 	
 	# Constructs a canonical code in one of two ways:
-	# - CanonicalCode(codelengths): Directly uses the given sequence of code lengths.
-	# - CanonicalCode(tree, symbollimit): Builds a canonical code from the given code tree.
+	# - CanonicalCode(codelengths):
+	#   Builds a canonical Huffman code from the given array of symbol code lengths.
+	#   Each code length must be non-negative. Code length 0 means no code for the symbol.
+	#   The collection of code lengths must represent a proper full Huffman code tree.
+	#   Examples of code lengths that result in under-full Huffman code trees:
+	#   * [1]
+	#   * [3, 0, 3]
+	#   * [1, 2, 3]
+	#   Examples of code lengths that result in correct full Huffman code trees:
+	#   * [1, 1]
+	#   * [2, 2, 1, 0, 0, 0]
+	#   * [3, 3, 3, 3, 3, 3, 3, 3]
+	#   Examples of code lengths that result in over-full Huffman code trees:
+	#   * [1, 1, 1]
+	#   * [1, 1, 2, 2, 3, 3, 3, 3]
+	# - CanonicalCode(tree, symbollimit):
+	#   Builds a canonical code from the given code tree.
 	def __init__(self, codelengths=None, tree=None, symbollimit=None):
 		if codelengths is not None and tree is None and symbollimit is None:
 			# Check basic validity
@@ -304,10 +371,14 @@ class CanonicalCode(object):
 			raise ValueError("Invalid arguments")
 	
 	
+	# Returns the symbol limit for this canonical Huffman code.
+	# Thus this code covers symbol values from 0 to symbolLimit-1.
 	def get_symbol_limit(self):
 		return len(self.codelengths)
 	
 	
+	# Returns the code length of the given symbol value. The result is 0
+	# if the symbol has node code; otherwise the result is a positive number.
 	def get_code_length(self, symbol):
 		if 0 <= symbol < len(self.codelengths):
 			return self.codelengths[symbol]
@@ -315,6 +386,7 @@ class CanonicalCode(object):
 			raise ValueError("Symbol out of range")
 	
 	
+	# Returns the canonical code tree for this canonical Huffman code.
 	def to_code_tree(self):
 		nodes = []
 		for i in range(max(self.codelengths), -1, -1):  # Descend through code lengths

@@ -11,21 +11,18 @@ import java.util.List;
 
 
 /**
- * A binary tree that represents a mapping between symbols and binary strings. Each encodable
- * symbol is represented as a leaf node, and the path from the root to a leaf represents
- * the binary string associated with the symbol. The data structure is immutable.
- * <p>There are two main uses of a code tree:</p>
+ * A binary tree that represents a mapping between symbols and binary strings.
+ * The data structure is immutable. There are two main uses of a code tree:
  * <ul>
- *   <li>Read the 'root' field and walk through the tree to extract the desired information.</li>
- *   <li>Call getCode() to get the code for a symbol, provided that the symbol has a code.</li>
+ *   <li>Read the root field and walk through the tree to extract the desired information.</li>
+ *   <li>Call getCode() to get the binary code for a particular encodable symbol.</li>
  * </ul>
  * <p>The path to a leaf node determines the leaf's symbol's code. Starting from the root, going
  * to the left child represents a 0, and going to the right child represents a 1. Constraints:</p>
  * <ul>
- *   <li>The tree must be complete, i.e. every leaf must have a symbol.</li>
- *   <li>No symbol occurs in two leaves.</li>
- *   <li>But not every symbol needs to be in the tree.</li>
- *   <li>The root must not be a leaf node.</li>
+ *   <li>The root must be an internal node, and the tree is finite.</li>
+ *   <li>No symbol value is found in more than one leaf.</li>
+ *   <li>Not every possible symbol value needs to be in the tree.</li>
  * </ul>
  * <p>Illustrated example:</p>
  * <pre>  Huffman codes:
@@ -33,7 +30,7 @@ import java.util.List;
  *    10: Symbol B
  *    110: Symbol C
  *    111: Symbol D
- *
+ *  
  *  Code tree:
  *      .
  *     / \
@@ -43,6 +40,7 @@ import java.util.List;
  *         / \
  *        C   D</pre>
  * @see FrequencyTable
+ * @see CanonicalCode
  */
 public final class CodeTree {
 	
