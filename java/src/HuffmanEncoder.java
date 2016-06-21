@@ -46,11 +46,11 @@ public final class HuffmanEncoder {
 	 * @param symbol the symbol to encode, which is non-negative and must be in the range of the code tree
 	 * @throws IOException if an I/O exception occurred
 	 * @throws NullPointerException if the current code tree is {@code null}
+	 * @throws IllegalArgumentException if the symbol value is negative or has no binary code
 	 */
 	public void write(int symbol) throws IOException {
 		if (codeTree == null)
 			throw new NullPointerException("Code tree is null");
-		
 		List<Integer> bits = codeTree.getCode(symbol);
 		for (int b : bits)
 			output.write(b);

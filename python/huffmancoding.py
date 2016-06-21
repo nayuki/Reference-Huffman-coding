@@ -207,6 +207,8 @@ class CodeTree(object):
 			else:
 				raise AssertionError("Illegal node type")
 		
+		if symbollimit < 2:
+			raise ValueError("At least 2 symbols needed")
 		# The root node of this code tree
 		self.root = root
 		# Stores the code for each symbol, or None if the symbol has no code.
@@ -364,6 +366,8 @@ class CanonicalCode(object):
 				else:
 					raise AssertionError("Illegal node type")
 			
+			if symbollimit < 2:
+				raise ValueError("At least 2 symbols needed")
 			self.codelengths = [0] * symbollimit
 			build_code_lengths(tree.root, 0)
 		

@@ -63,14 +63,16 @@ public final class CodeTree {
 	 * @param root the root of the tree
 	 * @param symbolLimit the symbol limit
 	 * @throws NullPointerException if tree root is {@code null}
-	 * @throws IllegalArgumentException if any symbol in the tree has a value greater or
-	 * equal to the symbol limit, or a symbol value appears more than once in the tree
+	 * @throws IllegalArgumentException if the symbol limit is less than 2, any symbol in the tree has
+	 * a value greater or equal to the symbol limit, or a symbol value appears more than once in the tree
 	 */
 	public CodeTree(InternalNode root, int symbolLimit) {
 		if (root == null)
 			throw new NullPointerException();
-		this.root = root;
+		if (symbolLimit < 2)
+			throw new IllegalArgumentException("At least 2 symbols needed");
 		
+		this.root = root;
 		codes = new ArrayList<List<Integer>>();  // Initially all null
 		for (int i = 0; i < symbolLimit; i++)
 			codes.add(null);

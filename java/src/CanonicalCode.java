@@ -127,16 +127,20 @@ public final class CanonicalCode {
 	 * @param tree the code tree to analyze
 	 * @param symbolLimit a number greater than the maximum symbol value in the tree
 	 * @throws NullPointerException if the tree is {@code null}
-	 * @throws IllegalArgumentException if a leaf node in the
-	 * tree has symbol value greater or equal to the symbol limit
+	 * @throws IllegalArgumentException if the symbol limit is less than 2, or a
+	 * leaf node in the tree has symbol value greater or equal to the symbol limit
 	 */
 	public CanonicalCode(CodeTree tree, int symbolLimit) {
+		if (tree == null)
+			throw new NullPointerException();
+		if (symbolLimit < 2)
+			throw new IllegalArgumentException("At least 2 symbols needed");
 		codeLengths = new int[symbolLimit];
 		buildCodeLengths(tree.root, 0);
 	}
 	
 	
-	// Recursive helper method for a constructor.
+	// Recursive helper method for the above constructor.
 	private void buildCodeLengths(Node node, int depth) {
 		if (node instanceof InternalNode) {
 			InternalNode internalNode = (InternalNode)node;
