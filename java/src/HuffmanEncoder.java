@@ -11,7 +11,7 @@ import java.util.List;
 
 
 /**
- * Encodes symbols and writes to a Huffman-coded bit stream.
+ * Encodes symbols and writes to a Huffman-coded bit stream. Not thread-safe.
  * @see HuffmanDecoder
  */
 public final class HuffmanEncoder {

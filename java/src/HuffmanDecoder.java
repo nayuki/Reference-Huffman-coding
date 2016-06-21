@@ -10,7 +10,7 @@ import java.io.IOException;
 
 
 /**
- * Reads from a Huffman-coded bit stream and decodes symbols.
+ * Reads from a Huffman-coded bit stream and decodes symbols. Not thread-safe.
  * @see HuffmanEncoder
  */
 public final class HuffmanDecoder {
