@@ -37,7 +37,7 @@ public final class HuffmanDecompress {
 		BitInputStream in = new BitInputStream(new BufferedInputStream(new FileInputStream(inputFile)));
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
 		try {
-			CanonicalCode canonCode = readCode(in);
+			CanonicalCode canonCode = readCodeLengthTable(in);
 			CodeTree code = canonCode.toCodeTree();
 			decompress(code, in, out);
 		} finally {
@@ -48,7 +48,7 @@ public final class HuffmanDecompress {
 	
 	
 	// To allow unit testing, this method is package-private instead of private.
-	static CanonicalCode readCode(BitInputStream in) throws IOException {
+	static CanonicalCode readCodeLengthTable(BitInputStream in) throws IOException {
 		int[] codeLengths = new int[257];
 		for (int i = 0; i < codeLengths.length; i++) {
 			// For this file format, we read 8 bits in big endian

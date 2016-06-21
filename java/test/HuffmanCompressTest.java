@@ -30,7 +30,7 @@ public class HuffmanCompressTest extends HuffmanCodingTest {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		BitOutputStream bitOut = new BitOutputStream(out);
 		
-		HuffmanCompress.writeCode(bitOut, canonCode);
+		HuffmanCompress.writeCodeLengthTable(bitOut, canonCode);
 		HuffmanCompress.compress(code, in, bitOut);
 		bitOut.close();
 		return out.toByteArray();
@@ -42,7 +42,7 @@ public class HuffmanCompressTest extends HuffmanCodingTest {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		BitInputStream bitIn = new BitInputStream(in);
 		
-		CanonicalCode canonCode = HuffmanDecompress.readCode(bitIn);
+		CanonicalCode canonCode = HuffmanDecompress.readCodeLengthTable(bitIn);
 		CodeTree code = canonCode.toCodeTree();
 		HuffmanDecompress.decompress(code, bitIn, out);
 		return out.toByteArray();

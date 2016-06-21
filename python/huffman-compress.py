@@ -41,7 +41,7 @@ def main(args):
 	inp = open(inputfile, "rb")
 	bitout = huffmancoding.BitOutputStream(open(outputfile, "wb"))
 	try:
-		write_code(bitout, canoncode)
+		write_code_len_table(bitout, canoncode)
 		compress(code, inp, bitout)
 	finally:
 		bitout.close()
@@ -62,7 +62,7 @@ def get_frequencies(filepath):
 	return freqs
 
 
-def write_code(bitout, canoncode):
+def write_code_len_table(bitout, canoncode):
 	for i in range(canoncode.get_symbol_limit()):
 		val = canoncode.get_code_length(i)
 		# For this file format, we only support codes up to 255 bits long

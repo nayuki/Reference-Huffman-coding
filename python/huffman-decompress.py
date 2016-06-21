@@ -28,7 +28,7 @@ def main(args):
 	bitin = huffmancoding.BitInputStream(open(inputfile, "rb"))
 	out = open(outputfile, "wb")
 	try:
-		canoncode = read_code(bitin)
+		canoncode = read_code_len_table(bitin)
 		code = canoncode.to_code_tree()
 		decompress(code, bitin, out)
 	finally:
@@ -36,7 +36,7 @@ def main(args):
 		bitin.close()
 
 
-def read_code(bitin):
+def read_code_len_table(bitin):
 	codelengths = []
 	for i in range(257):
 		# For this file format, we read 8 bits in big endian

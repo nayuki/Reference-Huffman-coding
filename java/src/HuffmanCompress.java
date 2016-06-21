@@ -50,7 +50,7 @@ public final class HuffmanCompress {
 		InputStream in = new BufferedInputStream(new FileInputStream(inputFile));
 		BitOutputStream out = new BitOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile)));
 		try {
-			writeCode(out, canonCode);
+			writeCodeLengthTable(out, canonCode);
 			compress(code, in, out);
 		} finally {
 			out.close();
@@ -79,7 +79,7 @@ public final class HuffmanCompress {
 	
 	
 	// To allow unit testing, this method is package-private instead of private.
-	static void writeCode(BitOutputStream out, CanonicalCode canonCode) throws IOException {
+	static void writeCodeLengthTable(BitOutputStream out, CanonicalCode canonCode) throws IOException {
 		for (int i = 0; i < canonCode.getSymbolLimit(); i++) {
 			int val = canonCode.getCodeLength(i);
 			// For this file format, we only support codes up to 255 bits long
