@@ -15,7 +15,7 @@
 
 import sys
 import huffmancoding
-python3 = sys.version_info[0] >= 3
+python3 = sys.version_info.major >= 3
 
 
 # Command line main application function.
