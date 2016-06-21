@@ -245,15 +245,41 @@ class CanonicalCode(object):
 	
 	# Constructs a canonical code in one of two ways:
 	# - CanonicalCode(codelengths): Directly uses the given sequence of code lengths.
-	#   The constructor does not check that the array of code lengths results
-	#   in a complete Huffman tree, being neither underfilled nor overfilled.
 	# - CanonicalCode(tree, symbollimit): Builds a canonical code from the given code tree.
 	def __init__(self, codelengths=None, tree=None, symbollimit=None):
 		if codelengths is not None and tree is None and symbollimit is None:
-			self.codelengths = list(codelengths)
-			for x in self.codelengths:
-				if x < 0:
+			# Check basic validity
+			if len(codelengths) < 2:
+				raise ValueError("At least 2 symbols needed")
+			for cl in codelengths:
+				if cl < 0:
 					raise ValueError("Illegal code length")
+			
+			# Copy once and check for tree validity
+			codelens = sorted(codelengths, reverse=True)
+			currentlevel = codelens[0]
+			numnodesatlevel = 0
+			for cl in codelens:
+				if cl == 0:
+					break
+				while cl < currentlevel:
+					if numnodesatlevel % 2 != 0:
+						raise ValueError("Under-full Huffman code tree")
+					numnodesatlevel //= 2
+					currentlevel -= 1
+				numnodesatlevel += 1
+			while cl < currentlevel:
+				if numnodesatlevel % 2 != 0:
+					raise ValueError("Under-full Huffman code tree")
+				numnodesatlevel //= 2
+				currentlevel -= 1
+			if numnodesatlevel < 1:
+				raise ValueError("Under-full Huffman code tree")
+			if numnodesatlevel > 1:
+				raise ValueError("Over-full Huffman code tree")
+			
+			# Copy again
+			self.codelengths = list(codelengths)
 		
 		elif tree is not None and symbollimit is not None and codelengths is None:
 			# Recursive helper method

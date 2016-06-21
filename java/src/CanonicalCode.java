@@ -7,6 +7,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -39,16 +40,45 @@ public final class CanonicalCode {
 	
 	
 	
-	// The constructor does not check that the array of code lengths results
-	// in a complete Huffman tree, being neither underfilled nor overfilled.
-	public CanonicalCode(int[] codeLengths) {
-		if (codeLengths == null)
+	public CanonicalCode(int[] codeLens) {
+		// Check basic validity
+		if (codeLens == null)
 			throw new NullPointerException();
-		this.codeLengths = codeLengths.clone();
-		for (int x : codeLengths) {
-			if (x < 0)
+		if (codeLens.length < 2)
+			throw new IllegalArgumentException("At least 2 symbols needed");
+		for (int cl : codeLens) {
+			if (cl < 0)
 				throw new IllegalArgumentException("Illegal code length");
 		}
+		
+		// Copy once and check for tree validity
+		codeLengths = codeLens.clone();
+		Arrays.sort(codeLengths);
+		int currentLevel = codeLengths[codeLengths.length - 1];
+		int numNodesAtLevel = 0;
+		for (int i = codeLengths.length - 1; i >= 0 && codeLengths[i] > 0; i--) {
+			int cl = codeLengths[i];
+			while (cl < currentLevel) {
+				if (numNodesAtLevel % 2 != 0)
+					throw new IllegalArgumentException("Under-full Huffman code tree");
+				numNodesAtLevel /= 2;
+				currentLevel--;
+			}
+			numNodesAtLevel++;
+		}
+		while (currentLevel > 0) {
+			if (numNodesAtLevel % 2 != 0)
+				throw new IllegalArgumentException("Under-full Huffman code tree");
+			numNodesAtLevel /= 2;
+			currentLevel--;
+		}
+		if (numNodesAtLevel < 1)
+			throw new IllegalArgumentException("Under-full Huffman code tree");
+		if (numNodesAtLevel > 1)
+			throw new IllegalArgumentException("Over-full Huffman code tree");
+		
+		// Copy again
+		System.arraycopy(codeLens, 0, codeLengths, 0, codeLens.length);
 	}
 	
 	
