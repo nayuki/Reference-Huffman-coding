@@ -317,25 +317,23 @@ class CanonicalCode(object):
 	
 	def to_code_tree(self):
 		nodes = []
-		for i in range(max(self.codelengths), 0, -1):  # Descend through positive code lengths
+		for i in range(max(self.codelengths), -1, -1):  # Descend through code lengths
+			assert len(nodes) % 2 == 0
 			newnodes = []
 			
-			# Add leaves for symbols with code length i
-			for (j, codelen) in enumerate(self.codelengths):
-				if codelen == i:
-					newnodes.append(Leaf(j))
+			# Add leaves for symbols with positive code length i
+			if i > 0:
+				for (j, codelen) in enumerate(self.codelengths):
+					if codelen == i:
+						newnodes.append(Leaf(j))
 			
 			# Merge pairs of nodes from the previous deeper layer
 			for j in range(0, len(nodes), 2):
 				newnodes.append(InternalNode(nodes[j], nodes[j + 1]))
-			
 			nodes = newnodes
-			if len(nodes) % 2 != 0:
-				raise ValueError("This canonical code does not represent a Huffman code tree")
 		
-		if len(nodes) != 2:
-			raise ValueError("This canonical code does not represent a Huffman code tree")
-		return CodeTree(InternalNode(nodes[0], nodes[1]), len(self.codelengths))
+		assert len(nodes) == 1
+		return CodeTree(nodes[0], len(self.codelengths))
 
 
 

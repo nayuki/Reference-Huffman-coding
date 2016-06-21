@@ -126,27 +126,28 @@ public final class CanonicalCode {
 	
 	public CodeTree toCodeTree() {
 		List<Node> nodes = new ArrayList<Node>();
-		for (int i = max(codeLengths); i >= 1; i--) {  // Descend through positive code lengths
+		for (int i = max(codeLengths); i >= 0; i--) {  // Descend through code lengths
+			if (nodes.size() % 2 != 0)
+				throw new AssertionError("Violation of canonical code invariants");
 			List<Node> newNodes = new ArrayList<Node>();
 			
-			// Add leaves for symbols with code length i
-			for (int j = 0; j < codeLengths.length; j++) {
-				if (codeLengths[j] == i)
-					newNodes.add(new Leaf(j));
+			// Add leaves for symbols with positive code length i
+			if (i > 0) {
+				for (int j = 0; j < codeLengths.length; j++) {
+					if (codeLengths[j] == i)
+						newNodes.add(new Leaf(j));
+				}
 			}
 			
 			// Merge pairs of nodes from the previous deeper layer
 			for (int j = 0; j < nodes.size(); j += 2)
 				newNodes.add(new InternalNode(nodes.get(j), nodes.get(j + 1)));
-			
 			nodes = newNodes;
-			if (nodes.size() % 2 != 0)
-				throw new IllegalStateException("This canonical code does not represent a Huffman code tree");
 		}
 		
-		if (nodes.size() != 2)
-			throw new IllegalStateException("This canonical code does not represent a Huffman code tree");
-		return new CodeTree(new InternalNode(nodes.get(0), nodes.get(1)), codeLengths.length);
+		if (nodes.size() != 1)
+			throw new AssertionError("Violation of canonical code invariants");
+		return new CodeTree((InternalNode)nodes.get(0), codeLengths.length);
 	}
 	
 	
