@@ -10,7 +10,6 @@ import heapq, sys
 python3 = sys.version_info.major >= 3
 
 
-
 # ---- Huffman coding core classes ----
 
 # Encodes symbols and writes to a Huffman-coded bit stream.

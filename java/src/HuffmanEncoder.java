@@ -30,7 +30,7 @@ public final class HuffmanEncoder {
 	
 	/**
 	 * Constructs a Huffman encoder based on the specified bit output stream.
-	 * @param in the bit output stream to write to
+	 * @param out the bit output stream to write to
 	 * @throws NullPointerException if the output stream is {@code null}
 	 */
 	public HuffmanEncoder(BitOutputStream out) {
