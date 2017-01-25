@@ -7,6 +7,7 @@
  */
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 /**
@@ -33,8 +34,7 @@ public final class HuffmanDecoder {
 	 * @throws NullPointerException if the input stream is {@code null}
 	 */
 	public HuffmanDecoder(BitInputStream in) {
-		if (in == null)
-			throw new NullPointerException();
+		Objects.requireNonNull(in);
 		input = in;
 	}
 	

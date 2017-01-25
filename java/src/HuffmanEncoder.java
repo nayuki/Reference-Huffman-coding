@@ -8,6 +8,7 @@
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -34,8 +35,7 @@ public final class HuffmanEncoder {
 	 * @throws NullPointerException if the output stream is {@code null}
 	 */
 	public HuffmanEncoder(BitOutputStream out) {
-		if (out == null)
-			throw new NullPointerException();
+		Objects.requireNonNull(out);
 		output = out;
 	}
 	

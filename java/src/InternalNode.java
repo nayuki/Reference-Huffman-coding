@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /* 
  * Reference Huffman coding
  * Copyright (c) Project Nayuki
@@ -20,8 +22,8 @@ public final class InternalNode extends Node {
 	
 	
 	public InternalNode(Node left, Node right) {
-		if (left == null || right == null)
-			throw new NullPointerException();
+		Objects.requireNonNull(left);
+		Objects.requireNonNull(right);
 		leftChild = left;
 		rightChild = right;
 	}

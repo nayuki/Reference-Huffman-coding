@@ -6,6 +6,7 @@
  * https://github.com/nayuki/Reference-Huffman-coding
  */
 
+import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -38,8 +39,7 @@ public final class FrequencyTable {
 	 * @throws IllegalArgumentException if the array length is less than 2 or any value is negative
 	 */
 	public FrequencyTable(int[] freqs) {
-		if (freqs == null)
-			throw new NullPointerException();
+		Objects.requireNonNull(freqs);
 		if (freqs.length < 2)
 			throw new IllegalArgumentException("At least 2 symbols needed");
 		frequencies = freqs.clone();  // Defensive copy

@@ -8,6 +8,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -67,8 +68,7 @@ public final class CodeTree {
 	 * a value greater or equal to the symbol limit, or a symbol value appears more than once in the tree
 	 */
 	public CodeTree(InternalNode root, int symbolLimit) {
-		if (root == null)
-			throw new NullPointerException();
+		Objects.requireNonNull(root);
 		if (symbolLimit < 2)
 			throw new IllegalArgumentException("At least 2 symbols needed");
 		

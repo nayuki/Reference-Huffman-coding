@@ -9,6 +9,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -82,8 +83,7 @@ public final class CanonicalCode {
 	 */
 	public CanonicalCode(int[] codeLens) {
 		// Check basic validity
-		if (codeLens == null)
-			throw new NullPointerException();
+		Objects.requireNonNull(codeLens);
 		if (codeLens.length < 2)
 			throw new IllegalArgumentException("At least 2 symbols needed");
 		for (int cl : codeLens) {
@@ -131,8 +131,7 @@ public final class CanonicalCode {
 	 * leaf node in the tree has symbol value greater or equal to the symbol limit
 	 */
 	public CanonicalCode(CodeTree tree, int symbolLimit) {
-		if (tree == null)
-			throw new NullPointerException();
+		Objects.requireNonNull(tree);
 		if (symbolLimit < 2)
 			throw new IllegalArgumentException("At least 2 symbols needed");
 		codeLengths = new int[symbolLimit];
