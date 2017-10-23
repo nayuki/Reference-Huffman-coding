@@ -17,7 +17,7 @@ import java.util.Objects;
  * The bits are written in big endian. Mutable and not thread-safe.
  * @see BitInputStream
  */
-public final class BitOutputStream {
+public final class BitOutputStream implements AutoCloseable {
 	
 	/* Fields */
 	

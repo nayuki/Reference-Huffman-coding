@@ -47,14 +47,11 @@ public final class HuffmanCompress {
 		code = canonCode.toCodeTree();
 		
 		// Read input file again, compress with Huffman coding, and write output file
-		InputStream in = new BufferedInputStream(new FileInputStream(inputFile));
-		BitOutputStream out = new BitOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile)));
-		try {
-			writeCodeLengthTable(out, canonCode);
-			compress(code, in, out);
-		} finally {
-			out.close();
-			in.close();
+		try (InputStream in = new BufferedInputStream(new FileInputStream(inputFile))) {
+			try (BitOutputStream out = new BitOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile)))) {
+				writeCodeLengthTable(out, canonCode);
+				compress(code, in, out);
+			}
 		}
 	}
 	
@@ -63,16 +60,13 @@ public final class HuffmanCompress {
 	// Also contains an extra entry for symbol 256, whose frequency is set to 0.
 	private static FrequencyTable getFrequencies(File file) throws IOException {
 		FrequencyTable freqs = new FrequencyTable(new int[257]);
-		InputStream input = new BufferedInputStream(new FileInputStream(file));
-		try {
+		try (InputStream input = new BufferedInputStream(new FileInputStream(file))) {
 			while (true) {
 				int b = input.read();
 				if (b == -1)
 					break;
 				freqs.increment(b);
 			}
-		} finally {
-			input.close();
 		}
 		return freqs;
 	}

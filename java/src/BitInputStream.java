@@ -18,7 +18,7 @@ import java.util.Objects;
  * Mutable and not thread-safe.
  * @see BitOutputStream
  */
-public final class BitInputStream {
+public final class BitInputStream implements AutoCloseable {
 	
 	/* Fields */
 	
