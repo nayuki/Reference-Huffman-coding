@@ -23,8 +23,7 @@ def main(args):
 	# Handle command line arguments
 	if len(args) != 2:
 		sys.exit("Usage: python huffman-compress.py InputFile OutputFile")
-	inputfile  = args[0]
-	outputfile = args[1]
+	inputfile, outputfile = args
 	
 	# Read input file once to compute symbol frequencies.
 	# The resulting generated code is optimal for static Huffman coding and also canonical.
