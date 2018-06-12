@@ -13,7 +13,7 @@
 # https://github.com/nayuki/Reference-Huffman-coding
 # 
 
-import sys
+import contextlib, sys
 import huffmancoding
 python3 = sys.version_info.major >= 3
 
@@ -37,14 +37,10 @@ def main(args):
 	code = canoncode.to_code_tree()
 	
 	# Read input file again, compress with Huffman coding, and write output file
-	inp = open(inputfile, "rb")
-	bitout = huffmancoding.BitOutputStream(open(outputfile, "wb"))
-	try:
+	with open(inputfile, "rb") as inp, \
+			contextlib.closing(huffmancoding.BitOutputStream(open(outputfile, "wb"))) as bitout:
 		write_code_len_table(bitout, canoncode)
 		compress(code, inp, bitout)
-	finally:
-		bitout.close()
-		inp.close()
 
 
 # Returns a frequency table based on the bytes in the given file.

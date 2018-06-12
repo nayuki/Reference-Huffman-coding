@@ -24,15 +24,11 @@ def main(args):
 	outputfile = args[1]
 	
 	# Perform file decompression
-	bitin = huffmancoding.BitInputStream(open(inputfile, "rb"))
-	out = open(outputfile, "wb")
-	try:
+	with open(inputfile, "rb") as inp, open(outputfile, "wb") as out:
+		bitin = huffmancoding.BitInputStream(inp)
 		canoncode = read_code_len_table(bitin)
 		code = canoncode.to_code_tree()
 		decompress(code, bitin, out)
-	finally:
-		out.close()
-		bitin.close()
 
 
 def read_code_len_table(bitin):

@@ -24,13 +24,8 @@ def main(args):
 	outputfile = args[1]
 	
 	# Perform file decompression
-	bitin = huffmancoding.BitInputStream(open(inputfile, "rb"))
-	out = open(outputfile, "wb")
-	try:
-		decompress(bitin, out)
-	finally:
-		out.close()
-		bitin.close()
+	with open(inputfile, "rb") as inp, open(outputfile, "wb") as out:
+		decompress(huffmancoding.BitInputStream(inp), out)
 
 
 def decompress(bitin, out):

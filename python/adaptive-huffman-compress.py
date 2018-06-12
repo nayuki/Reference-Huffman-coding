@@ -15,7 +15,7 @@
 # https://github.com/nayuki/Reference-Huffman-coding
 # 
 
-import sys
+import contextlib, sys
 import huffmancoding
 python3 = sys.version_info.major >= 3
 
@@ -29,13 +29,9 @@ def main(args):
 	outputfile = args[1]
 	
 	# Perform file compression
-	inp = open(inputfile, "rb")
-	bitout = huffmancoding.BitOutputStream(open(outputfile, "wb"))
-	try:
+	with open(inputfile, "rb") as inp, \
+			contextlib.closing(huffmancoding.BitOutputStream(open(outputfile, "wb"))) as bitout:
 		compress(inp, bitout)
-	finally:
-		bitout.close()
-		inp.close()
 
 
 def compress(inp, bitout):
