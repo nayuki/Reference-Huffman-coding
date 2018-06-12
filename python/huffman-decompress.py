@@ -31,13 +31,13 @@ def main(args):
 
 
 def read_code_len_table(bitin):
-	codelengths = []
-	for i in range(257):
-		# For this file format, we read 8 bits in big endian
-		val = 0
-		for j in range(8):
-			val = (val << 1) | bitin.read_no_eof()
-		codelengths.append(val)
+	def read_int(n):
+		result = 0
+		for _ in range(n):
+			result = (result << 1) | bitin.read_no_eof()  # Big endian
+		return result
+	
+	codelengths = [read_int(8) for _ in range(257)]
 	return huffmancoding.CanonicalCode(codelengths=codelengths)
 
 
