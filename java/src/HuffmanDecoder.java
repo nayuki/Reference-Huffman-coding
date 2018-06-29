@@ -16,6 +16,8 @@ import java.util.Objects;
  */
 public final class HuffmanDecoder {
 	
+	/*---- Fields ----*/
+	
 	// The underlying bit input stream (not null).
 	private BitInputStream input;
 	
@@ -28,6 +30,8 @@ public final class HuffmanDecoder {
 	
 	
 	
+	/*---- Constructor ----*/
+	
 	/**
 	 * Constructs a Huffman decoder based on the specified bit input stream.
 	 * @param in the bit input stream to read from
@@ -39,6 +43,8 @@ public final class HuffmanDecoder {
 	}
 	
 	
+	
+	/*---- Method ----*/
 	
 	/**
 	 * Reads from the input stream to decode the next Huffman-coded symbol.

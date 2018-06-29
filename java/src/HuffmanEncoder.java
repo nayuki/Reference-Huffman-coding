@@ -17,6 +17,8 @@ import java.util.Objects;
  */
 public final class HuffmanEncoder {
 	
+	/*---- Fields ----*/
+	
 	// The underlying bit output stream (not null).
 	private BitOutputStream output;
 	
@@ -29,6 +31,8 @@ public final class HuffmanEncoder {
 	
 	
 	
+	/*---- Constructor ----*/
+	
 	/**
 	 * Constructs a Huffman encoder based on the specified bit output stream.
 	 * @param out the bit output stream to write to
@@ -40,6 +44,8 @@ public final class HuffmanEncoder {
 	}
 	
 	
+	
+	/*---- Method ----*/
 	
 	/**
 	 * Encodes the specified symbol and writes to the Huffman-coded output stream.
