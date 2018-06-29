@@ -49,7 +49,7 @@ import java.util.Objects;
  */
 public final class CanonicalCode {
 	
-	/* Fields and constructors */
+	/*---- Fields and constructors ----*/
 	
 	private int[] codeLengths;
 	
@@ -160,7 +160,7 @@ public final class CanonicalCode {
 	
 	
 	
-	/* Various methods */
+	/*---- Various methods ----*/
 	
 	/**
 	 * Returns the symbol limit for this canonical Huffman code.

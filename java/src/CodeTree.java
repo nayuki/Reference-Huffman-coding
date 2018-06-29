@@ -45,7 +45,7 @@ import java.util.Objects;
  */
 public final class CodeTree {
 	
-	/* Fields and constructor */
+	/*---- Fields and constructor ----*/
 	
 	/**
 	 * The root node of this code tree (not {@code null}).
@@ -108,7 +108,7 @@ public final class CodeTree {
 	
 	
 	
-	/* Various methods */
+	/*---- Various methods ----*/
 	
 	/**
 	 * Returns the Huffman code for the specified symbol, which is a list of 0s and 1s.

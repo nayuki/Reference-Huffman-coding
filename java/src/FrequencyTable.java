@@ -25,7 +25,7 @@ import java.util.Queue;
  */
 public final class FrequencyTable {
 	
-	/* Fields and constructors */
+	/*---- Fields and constructors ----*/
 	
 	// Length at least 2, and every element is non-negative
 	private int[] frequencies;
@@ -51,7 +51,7 @@ public final class FrequencyTable {
 	
 	
 	
-	/* Basic methods */
+	/*---- Basic methods ----*/
 	
 	/**
 	 * Returns the number of symbols in this frequency table. The result is always at least 2.
@@ -124,7 +124,7 @@ public final class FrequencyTable {
 	
 	
 	
-	/* Advanced methods */
+	/*---- Advanced methods ----*/
 	
 	/**
 	 * Returns a code tree that is optimal for the symbol frequencies in this table.

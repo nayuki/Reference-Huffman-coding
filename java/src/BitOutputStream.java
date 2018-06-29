@@ -19,7 +19,7 @@ import java.util.Objects;
  */
 public final class BitOutputStream implements AutoCloseable {
 	
-	/* Fields */
+	/*---- Fields ----*/
 	
 	// The underlying byte stream to write to (not null).
 	private OutputStream output;
@@ -32,7 +32,7 @@ public final class BitOutputStream implements AutoCloseable {
 	
 	
 	
-	/* Constructor */
+	/*---- Constructor ----*/
 	
 	/**
 	 * Constructs a bit output stream based on the specified byte output stream.
@@ -48,7 +48,7 @@ public final class BitOutputStream implements AutoCloseable {
 	
 	
 	
-	/* Methods */
+	/*---- Methods ----*/
 	
 	/**
 	 * Writes a bit to the stream. The specified bit must be 0 or 1.
