@@ -356,11 +356,11 @@ class CanonicalCode(object):
 					build_code_lengths(node.leftchild , depth + 1)
 					build_code_lengths(node.rightchild, depth + 1)
 				elif isinstance(node, Leaf):
+					if node.symbol >= len(self.codelengths):
+						raise ValueError("Symbol exceeds symbol limit")
 					# Note: CodeTree already has a checked constraint that disallows a symbol in multiple leaves
 					if self.codelengths[node.symbol] != 0:
 						raise AssertionError("Symbol has more than one code")
-					if node.symbol >= len(self.codelengths):
-						raise ValueError("Symbol exceeds symbol limit")
 					self.codelengths[node.symbol] = depth
 				else:
 					raise AssertionError("Illegal node type")
