@@ -10,6 +10,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <queue>
 #include <vector>
 #include "CodeTree.hpp"
 
@@ -79,5 +80,8 @@ class FrequencyTable final {
 		public: bool operator<(const NodeWithFrequency &other) const;
 		
 	};
+	
+	
+	private: static NodeWithFrequency popQueue(std::priority_queue<NodeWithFrequency> &pqueue);
 	
 };

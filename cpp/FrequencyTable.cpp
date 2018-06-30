@@ -8,7 +8,6 @@
 
 #include <cassert>
 #include <algorithm>
-#include <queue>
 #include <utility>
 #include "FrequencyTable.hpp"
 
@@ -79,10 +78,8 @@ CodeTree FrequencyTable::buildCodeTree() const {
 	
 	// Repeatedly tie together two nodes with the lowest frequency
 	while (pqueue.size() > 1) {
-		NodeWithFrequency x = std::move(const_cast<NodeWithFrequency&&>(pqueue.top()));
-		pqueue.pop();
-		NodeWithFrequency y = std::move(const_cast<NodeWithFrequency&&>(pqueue.top()));
-		pqueue.pop();
+		NodeWithFrequency x = popQueue(pqueue);
+		NodeWithFrequency y = popQueue(pqueue);
 		pqueue.push(NodeWithFrequency(
 			new InternalNode(std::move(x.node), std::move(y.node)),
 			std::min(x.lowestSymbol, y.lowestSymbol),
@@ -90,8 +87,7 @@ CodeTree FrequencyTable::buildCodeTree() const {
 	}
 	
 	// Return the remaining node
-	NodeWithFrequency temp = std::move(const_cast<NodeWithFrequency&&>(pqueue.top()));
-	pqueue.pop();
+	NodeWithFrequency temp = popQueue(pqueue);
 	InternalNode *root = dynamic_cast<InternalNode*>(temp.node.release());
 	return CodeTree(std::unique_ptr<InternalNode>(root), getSymbolLimit());
 }
@@ -114,4 +110,11 @@ bool FrequencyTable::NodeWithFrequency::operator<(const NodeWithFrequency &other
 		return false;
 	else
 		return false;
+}
+
+
+FrequencyTable::NodeWithFrequency FrequencyTable::popQueue(std::priority_queue<NodeWithFrequency> &pqueue) {
+	FrequencyTable::NodeWithFrequency result = std::move(const_cast<NodeWithFrequency&&>(pqueue.top()));
+	pqueue.pop();
+	return result;
 }
