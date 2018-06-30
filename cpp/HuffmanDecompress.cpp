@@ -48,8 +48,8 @@ int main(int argc, char *argv[]) {
 				val = (val << 1) | bin.readNoEof();
 			codeLengths.push_back(val);
 		}
-		CanonicalCode canonCode(codeLengths);
-		CodeTree code = canonCode.toCodeTree();
+		const CanonicalCode canonCode(codeLengths);
+		const CodeTree code = canonCode.toCodeTree();
 		
 		HuffmanDecoder dec(bin);
 		dec.codeTree = &code;

@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
 	}
 	freqs.increment(256);  // EOF symbol gets a frequency of 1
 	CodeTree code = freqs.buildCodeTree();
-	CanonicalCode canonCode(code, freqs.getSymbolLimit());
+	const CanonicalCode canonCode(code, freqs.getSymbolLimit());
 	// Replace code tree with canonical one. For each symbol,
 	// the code value may change but the code length stays the same.
 	code = canonCode.toCodeTree();

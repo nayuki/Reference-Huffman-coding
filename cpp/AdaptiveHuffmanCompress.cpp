@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
 	BitOutputStream bout(out);
 	try {
 		
-		std::vector<uint32_t> initFreqs(257, 1);
+		const std::vector<uint32_t> initFreqs(257, 1);
 		FrequencyTable freqs(initFreqs);
 		HuffmanEncoder enc(bout);
 		CodeTree tree = freqs.buildCodeTree();  // Don't need to make canonical code because we don't transmit the code tree

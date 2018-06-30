@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 	BitInputStream bin(in);
 	try {
 		
-		std::vector<uint32_t> initFreqs(257, 1);
+		const std::vector<uint32_t> initFreqs(257, 1);
 		FrequencyTable freqs(initFreqs);
 		HuffmanDecoder dec(bin);
 		CodeTree tree = freqs.buildCodeTree();  // Use same algorithm as the compressor
