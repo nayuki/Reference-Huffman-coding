@@ -167,12 +167,13 @@ public final class FrequencyTable {
 	}
 	
 	
+	
 	// Helper structure for buildCodeTree()
 	private static class NodeWithFrequency implements Comparable<NodeWithFrequency> {
 		
 		public final Node node;
 		public final int lowestSymbol;
-		public final long frequency;  // Using long prevents overflow
+		public final long frequency;  // Using wider type prevents overflow
 		
 		
 		public NodeWithFrequency(Node nd, int lowSym, long freq) {

@@ -1,5 +1,3 @@
-import java.util.Objects;
-
 /* 
  * Reference Huffman coding
  * Copyright (c) Project Nayuki
@@ -7,6 +5,8 @@ import java.util.Objects;
  * https://www.nayuki.io/page/reference-huffman-coding
  * https://github.com/nayuki/Reference-Huffman-coding
  */
+
+import java.util.Objects;
 
 
 /**
