@@ -72,7 +72,7 @@ class FrequencyTable final {
 		public: std::uint64_t frequency;  // Using wider type prevents overflow
 		
 		
-		public: NodeWithFrequency(std::unique_ptr<Node> &&nd, std::uint32_t lowSym, std::uint64_t freq);
+		public: NodeWithFrequency(Node *nd, std::uint32_t lowSym, std::uint64_t freq);
 		
 		
 		// Sort by ascending frequency, breaking ties by ascending symbol value.

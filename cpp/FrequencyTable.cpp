@@ -59,7 +59,7 @@ CodeTree FrequencyTable::buildCodeTree() const {
 		uint32_t i = 0;
 		for (uint32_t freq : frequencies) {
 			if (freq > 0)
-				pqueue.push(NodeWithFrequency(std::unique_ptr<Node>(new Leaf(i)), i, freq));
+				pqueue.push(NodeWithFrequency(new Leaf(i), i, freq));
 			i++;
 		}
 	}
@@ -71,7 +71,7 @@ CodeTree FrequencyTable::buildCodeTree() const {
 			if (pqueue.size() >= 2)
 				break;
 			if (freq == 0)
-				pqueue.push(NodeWithFrequency(std::unique_ptr<Node>(new Leaf(i)), i, freq));
+				pqueue.push(NodeWithFrequency(new Leaf(i), i, freq));
 			i++;
 		}
 	}
@@ -84,7 +84,7 @@ CodeTree FrequencyTable::buildCodeTree() const {
 		NodeWithFrequency y = std::move(const_cast<NodeWithFrequency&&>(pqueue.top()));
 		pqueue.pop();
 		pqueue.push(NodeWithFrequency(
-			std::unique_ptr<Node>(new InternalNode(std::move(x.node), std::move(y.node))),
+			new InternalNode(std::move(x.node), std::move(y.node)),
 			std::min(x.lowestSymbol, y.lowestSymbol),
 			x.frequency + y.frequency));
 	}
@@ -97,8 +97,8 @@ CodeTree FrequencyTable::buildCodeTree() const {
 }
 
 
-FrequencyTable::NodeWithFrequency::NodeWithFrequency(std::unique_ptr<Node> &&nd, uint32_t lowSym, uint64_t freq) :
-	node(std::move(nd)),
+FrequencyTable::NodeWithFrequency::NodeWithFrequency(Node *nd, uint32_t lowSym, uint64_t freq) :
+	node(std::unique_ptr<Node>(nd)),
 	lowestSymbol(lowSym),
 	frequency(freq) {}
 
