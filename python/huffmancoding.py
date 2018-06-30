@@ -80,9 +80,8 @@ class FrequencyTable(object):
 		self.frequencies = list(freqs)  # Make a copy
 		if len(self.frequencies) < 2:
 			raise ValueError("At least 2 symbols needed")
-		for x in self.frequencies:
-			if x < 0:
-				raise ValueError("Negative frequency")
+		if any(x < 0 for x in self.frequencies):
+			raise ValueError("Negative frequency")
 	
 	
 	# Returns the number of symbols in this frequency table. The result is always at least 2.
@@ -319,9 +318,8 @@ class CanonicalCode(object):
 			# Check basic validity
 			if len(codelengths) < 2:
 				raise ValueError("At least 2 symbols needed")
-			for cl in codelengths:
-				if cl < 0:
-					raise ValueError("Illegal code length")
+			if any(cl < 0 for cl in codelengths):
+				raise ValueError("Illegal code length")
 			
 			# Copy once and check for tree validity
 			codelens = sorted(codelengths, reverse=True)
