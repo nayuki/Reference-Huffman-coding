@@ -28,12 +28,10 @@ class HuffmanDecoder final {
 	public: const CodeTree *codeTree;
 	
 	
-	
 	/*---- Constructor ----*/
 	
 	// Constructs a Huffman decoder based on the given bit input stream.
 	public: HuffmanDecoder(BitInputStream &in);
-	
 	
 	
 	/*---- Method ----*/
@@ -61,12 +59,10 @@ class HuffmanEncoder final {
 	public: const CodeTree *codeTree;
 	
 	
-	
 	/*---- Constructor ----*/
 	
 	// Constructs a Huffman encoder based on the given bit output stream.
 	public: HuffmanEncoder(BitOutputStream &out);
-	
 	
 	
 	/*---- Method ----*/

@@ -92,13 +92,11 @@ class CodeTree final {
 	private: std::vector<std::vector<char> > codes;
 	
 	
-	
 	/*---- Constructor ----*/
 	
 	// Constructs a code tree from the given tree of nodes and given symbol limit.
 	// Each symbol in the tree must have value strictly less than the symbol limit.
 	public: CodeTree(std::unique_ptr<InternalNode> &&rt, std::uint32_t symbolLimit);
-	
 	
 	
 	/*---- Methods ----*/
