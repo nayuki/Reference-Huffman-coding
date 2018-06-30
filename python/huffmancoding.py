@@ -336,7 +336,7 @@ class CanonicalCode(object):
 					numnodesatlevel //= 2
 					currentlevel -= 1
 				numnodesatlevel += 1
-			while cl < currentlevel:
+			while currentlevel > 0:
 				if numnodesatlevel % 2 != 0:
 					raise ValueError("Under-full Huffman code tree")
 				numnodesatlevel //= 2
