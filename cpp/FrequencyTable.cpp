@@ -89,7 +89,9 @@ CodeTree FrequencyTable::buildCodeTree() const {
 	// Return the remaining node
 	NodeWithFrequency temp = popQueue(pqueue);
 	InternalNode *root = dynamic_cast<InternalNode*>(temp.node.release());
-	return CodeTree(std::unique_ptr<InternalNode>(root), getSymbolLimit());
+	CodeTree result(std::move(*root), getSymbolLimit());
+	delete root;
+	return result;
 }
 
 

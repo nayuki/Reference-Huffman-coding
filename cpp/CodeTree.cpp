@@ -25,7 +25,7 @@ InternalNode::InternalNode(std::unique_ptr<Node> &&left, std::unique_ptr<Node> &
 	rightChild(std::move(right)) {}
 
 
-CodeTree::CodeTree(std::unique_ptr<InternalNode> &&rt, uint32_t symbolLimit) :
+CodeTree::CodeTree(InternalNode &&rt, uint32_t symbolLimit) :
 		root(std::move(rt)) {
 	if (symbolLimit < 2)
 		throw "At least 2 symbols needed";
@@ -33,7 +33,7 @@ CodeTree::CodeTree(std::unique_ptr<InternalNode> &&rt, uint32_t symbolLimit) :
 		throw "Too many symbols";
 	codes = vector<vector<char> >(symbolLimit, vector<char>());  // Initially all empty
 	vector<char> prefix;
-	buildCodeList(root.get(), prefix);  // Fill 'codes' with appropriate data
+	buildCodeList(&root, prefix);  // Fill 'codes' with appropriate data
 }
 
 

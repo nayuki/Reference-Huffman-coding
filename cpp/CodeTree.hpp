@@ -84,7 +84,7 @@ class CodeTree final {
 	
 	/*---- Fields ----*/
 	
-	public: std::unique_ptr<InternalNode> root;
+	public: InternalNode root;
 	
 	
 	// Stores the code for each symbol, or null if the symbol has no code.
@@ -96,7 +96,7 @@ class CodeTree final {
 	
 	// Constructs a code tree from the given tree of nodes and given symbol limit.
 	// Each symbol in the tree must have value strictly less than the symbol limit.
-	public: CodeTree(std::unique_ptr<InternalNode> &&rt, std::uint32_t symbolLimit);
+	public: CodeTree(InternalNode &&rt, std::uint32_t symbolLimit);
 	
 	
 	/*---- Methods ----*/

@@ -57,7 +57,7 @@ CanonicalCode::CanonicalCode(const CodeTree &tree, uint32_t symbolLimit) {
 	if (symbolLimit < 2)
 		throw "At least 2 symbols needed";
 	codeLengths = vector<uint32_t>(symbolLimit, 0);
-	buildCodeLengths(tree.root.get(), 0);
+	buildCodeLengths(&tree.root, 0);
 }
 
 
@@ -123,7 +123,9 @@ CodeTree CanonicalCode::toCodeTree() const {
 	if (nodes.size() != 1)
 		throw "Assertion error: Violation of canonical code invariants";
 	
-	Node *temp = std::move(nodes.front()).release();
+	Node *temp = nodes.front().release();
 	InternalNode *root = dynamic_cast<InternalNode*>(temp);
-	return CodeTree(std::unique_ptr<InternalNode>(root), static_cast<uint32_t>(codeLengths.size()));
+	CodeTree result(std::move(*root), static_cast<uint32_t>(codeLengths.size()));
+	delete root;
+	return result;
 }

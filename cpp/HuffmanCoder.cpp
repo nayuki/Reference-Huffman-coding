@@ -17,7 +17,7 @@ int HuffmanDecoder::read() {
 	if (codeTree == nullptr)
 		throw "Code tree is null";
 	
-	const InternalNode *currentNode = codeTree->root.get();
+	const InternalNode *currentNode = &codeTree->root;
 	while (true) {
 		int temp = input.readNoEof();
 		const Node *nextNode;
