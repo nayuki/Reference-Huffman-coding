@@ -30,7 +30,7 @@ def main(args):
 	freqs = get_frequencies(inputfile)
 	freqs.increment(256)  # EOF symbol gets a frequency of 1
 	code = freqs.build_code_tree()
-	canoncode = huffmancoding.CanonicalCode(tree=code, symbollimit=257)
+	canoncode = huffmancoding.CanonicalCode(tree=code, symbollimit=freqs.get_symbol_limit())
 	# Replace code tree with canonical one. For each symbol,
 	# the code value may change but the code length stays the same.
 	code = canoncode.to_code_tree()

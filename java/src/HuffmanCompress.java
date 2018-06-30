@@ -41,7 +41,7 @@ public final class HuffmanCompress {
 		FrequencyTable freqs = getFrequencies(inputFile);
 		freqs.increment(256);  // EOF symbol gets a frequency of 1
 		CodeTree code = freqs.buildCodeTree();
-		CanonicalCode canonCode = new CanonicalCode(code, 257);
+		CanonicalCode canonCode = new CanonicalCode(code, freqs.getSymbolLimit());
 		// Replace code tree with canonical one. For each symbol,
 		// the code value may change but the code length stays the same.
 		code = canonCode.toCodeTree();
