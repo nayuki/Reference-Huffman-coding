@@ -31,7 +31,7 @@ class HuffmanDecoder final {
 	/*---- Constructor ----*/
 	
 	// Constructs a Huffman decoder based on the given bit input stream.
-	public: HuffmanDecoder(BitInputStream &in);
+	public: explicit HuffmanDecoder(BitInputStream &in);
 	
 	
 	/*---- Method ----*/
@@ -62,7 +62,7 @@ class HuffmanEncoder final {
 	/*---- Constructor ----*/
 	
 	// Constructs a Huffman encoder based on the given bit output stream.
-	public: HuffmanEncoder(BitOutputStream &out);
+	public: explicit HuffmanEncoder(BitOutputStream &out);
 	
 	
 	/*---- Method ----*/

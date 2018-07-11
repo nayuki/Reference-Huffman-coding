@@ -32,7 +32,7 @@ class Leaf final : public Node {
 	public: std::uint32_t symbol;
 	
 	
-	public: Leaf(std::uint32_t sym);
+	public: explicit Leaf(std::uint32_t sym);
 	
 };
 
@@ -48,7 +48,7 @@ class InternalNode final : public Node {
 	public: std::unique_ptr<Node> rightChild;  // Not null
 	
 	
-	public: InternalNode(std::unique_ptr<Node> &&left, std::unique_ptr<Node> &&right);
+	public: explicit InternalNode(std::unique_ptr<Node> &&left, std::unique_ptr<Node> &&right);
 	
 };
 
@@ -96,7 +96,7 @@ class CodeTree final {
 	
 	// Constructs a code tree from the given tree of nodes and given symbol limit.
 	// Each symbol in the tree must have value strictly less than the symbol limit.
-	public: CodeTree(InternalNode &&rt, std::uint32_t symbolLimit);
+	public: explicit CodeTree(InternalNode &&rt, std::uint32_t symbolLimit);
 	
 	
 	/*---- Methods ----*/

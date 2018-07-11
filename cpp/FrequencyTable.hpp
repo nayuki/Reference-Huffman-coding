@@ -34,7 +34,7 @@ class FrequencyTable final {
 	
 	// Constructs a frequency table from the given array of frequencies.
 	// The array length must be at least 2, and each value must be non-negative.
-	public: FrequencyTable(const std::vector<std::uint32_t> &freqs);
+	public: explicit FrequencyTable(const std::vector<std::uint32_t> &freqs);
 	
 	
 	
@@ -73,7 +73,7 @@ class FrequencyTable final {
 		public: std::uint64_t frequency;  // Using wider type prevents overflow
 		
 		
-		public: NodeWithFrequency(Node *nd, std::uint32_t lowSym, std::uint64_t freq);
+		public: explicit NodeWithFrequency(Node *nd, std::uint32_t lowSym, std::uint64_t freq);
 		
 		
 		// Sort by ascending frequency, breaking ties by ascending symbol value.

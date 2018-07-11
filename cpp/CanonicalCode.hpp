@@ -71,11 +71,11 @@ class CanonicalCode final {
 	// Examples of code lengths that result in over-full Huffman code trees:
 	// - [1, 1, 1]
 	// - [1, 1, 2, 2, 3, 3, 3, 3]
-	public: CanonicalCode(const std::vector<std::uint32_t> &codeLens);
+	public: explicit CanonicalCode(const std::vector<std::uint32_t> &codeLens);
 	
 	
 	// Builds a canonical Huffman code from the given code tree.
-	public: CanonicalCode(const CodeTree &tree, std::uint32_t symbolLimit);
+	public: explicit CanonicalCode(const CodeTree &tree, std::uint32_t symbolLimit);
 	
 	
 	// Recursive helper method for the above constructor.
