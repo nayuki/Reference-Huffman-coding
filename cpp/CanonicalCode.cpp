@@ -7,6 +7,7 @@
  */
 
 #include <algorithm>
+#include <cstddef>
 #include <utility>
 #include "CanonicalCode.hpp"
 
@@ -110,7 +111,7 @@ CodeTree CanonicalCode::toCodeTree() const {
 		}
 		
 		// Merge pairs of nodes from the previous deeper layer
-		for (size_t j = 0; j < nodes.size(); j += 2) {
+		for (std::size_t j = 0; j < nodes.size(); j += 2) {
 			newNodes.push_back(std::unique_ptr<Node>(new InternalNode(
 				std::move(nodes.at(j)), std::move(nodes.at(j + 1)))));
 		}
