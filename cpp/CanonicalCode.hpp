@@ -45,7 +45,7 @@
  *     Symbol B: 110
  *     Symbol C: None
  *     Symbol D: 10
- *     Symbol E: 111</pre>
+ *     Symbol E: 111
  */
 class CanonicalCode final {
 	

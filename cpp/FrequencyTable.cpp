@@ -6,8 +6,8 @@
  * https://github.com/nayuki/Reference-Huffman-coding
  */
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include <utility>
 #include "FrequencyTable.hpp"
 
