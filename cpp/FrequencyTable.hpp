@@ -26,9 +26,9 @@
  */
 class FrequencyTable final {
 	
-	/*---- Fields and constructors ----*/
+	/*---- Field and constructor ----*/
 	
-	// Length at least 2, and every element is non-negative
+	// Length at least 2.
 	private: std::vector<std::uint32_t> frequencies;
 	
 	

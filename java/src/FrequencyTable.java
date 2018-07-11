@@ -25,9 +25,9 @@ import java.util.Queue;
  */
 public final class FrequencyTable {
 	
-	/*---- Fields and constructors ----*/
+	/*---- Field and constructor ----*/
 	
-	// Length at least 2, and every element is non-negative
+	// Length at least 2, and every element is non-negative.
 	private int[] frequencies;
 	
 	
