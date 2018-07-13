@@ -68,11 +68,10 @@ public final class CodeTree {
 	 * a value greater or equal to the symbol limit, or a symbol value appears more than once in the tree
 	 */
 	public CodeTree(InternalNode root, int symbolLimit) {
-		Objects.requireNonNull(root);
+		this.root = Objects.requireNonNull(root);
 		if (symbolLimit < 2)
 			throw new IllegalArgumentException("At least 2 symbols needed");
 		
-		this.root = root;
 		codes = new ArrayList<List<Integer>>();  // Initially all null
 		for (int i = 0; i < symbolLimit; i++)
 			codes.add(null);

@@ -39,8 +39,7 @@ public final class HuffmanEncoder {
 	 * @throws NullPointerException if the output stream is {@code null}
 	 */
 	public HuffmanEncoder(BitOutputStream out) {
-		Objects.requireNonNull(out);
-		output = out;
+		output = Objects.requireNonNull(out);
 	}
 	
 	

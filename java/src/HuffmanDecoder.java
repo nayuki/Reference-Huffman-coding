@@ -38,8 +38,7 @@ public final class HuffmanDecoder {
 	 * @throws NullPointerException if the input stream is {@code null}
 	 */
 	public HuffmanDecoder(BitInputStream in) {
-		Objects.requireNonNull(in);
-		input = in;
+		input = Objects.requireNonNull(in);
 	}
 	
 	
