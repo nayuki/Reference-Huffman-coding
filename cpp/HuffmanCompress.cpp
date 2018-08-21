@@ -17,6 +17,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 #include <vector>
 #include "BitIoStream.hpp"
 #include "CanonicalCode.hpp"
@@ -44,7 +45,7 @@ int main(int argc, char *argv[]) {
 		if (b == EOF)
 			break;
 		if (b < 0 || b > 255)
-			throw "Assertion error";
+			throw std::logic_error("Assertion error");
 		freqs.increment(static_cast<uint32_t>(b));
 	}
 	freqs.increment(256);  // EOF symbol gets a frequency of 1
@@ -66,7 +67,7 @@ int main(int argc, char *argv[]) {
 			uint32_t val = canonCode.getCodeLength(i);
 			// For this file format, we only support codes up to 255 bits long
 			if (val >= 256)
-				throw "The code for a symbol is too long";
+				throw std::domain_error("The code for a symbol is too long");
 			// Write value as 8 bits in big endian
 			for (int j = 7; j >= 0; j--)
 				bout.write((val >> j) & 1);
@@ -80,7 +81,7 @@ int main(int argc, char *argv[]) {
 			if (symbol == EOF)
 				break;
 			if (symbol < 0 || symbol > 255)
-				throw "Assertion error";
+				throw std::logic_error("Assertion error");
 			enc.write(static_cast<uint32_t>(symbol));
 		}
 		enc.write(256);  // EOF

@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <stdexcept>
 #include <utility>
 #include "FrequencyTable.hpp"
 
@@ -19,9 +20,9 @@ using std::vector;
 FrequencyTable::FrequencyTable(const std::vector<uint32_t> &freqs) :
 		frequencies(freqs) {
 	if (freqs.size() < 2)
-		throw "At least 2 symbols needed";
+		throw std::invalid_argument("At least 2 symbols needed");
 	if (freqs.size() > UINT32_MAX)
-		throw "Too many symbols";
+		throw std::length_error("Too many symbols");
 }
 
 
@@ -42,7 +43,7 @@ void FrequencyTable::set(uint32_t symbol, uint32_t freq) {
 
 void FrequencyTable::increment(uint32_t symbol) {
 	if (frequencies.at(symbol) == UINT32_MAX)
-		throw "Maximum frequency reached";
+		throw std::overflow_error("Maximum frequency reached");
 	frequencies.at(symbol)++;
 }
 

@@ -6,6 +6,7 @@
  * https://github.com/nayuki/Reference-Huffman-coding
  */
 
+#include <stdexcept>
 #include <utility>
 #include "CodeTree.hpp"
 
@@ -28,9 +29,9 @@ InternalNode::InternalNode(std::unique_ptr<Node> &&left, std::unique_ptr<Node> &
 CodeTree::CodeTree(InternalNode &&rt, uint32_t symbolLimit) :
 		root(std::move(rt)) {
 	if (symbolLimit < 2)
-		throw "At least 2 symbols needed";
+		throw std::domain_error("At least 2 symbols needed");
 	if (symbolLimit > SIZE_MAX)
-		throw "Too many symbols";
+		throw std::length_error("Too many symbols");
 	codes = vector<vector<char> >(symbolLimit, vector<char>());  // Initially all empty
 	vector<char> prefix;
 	buildCodeList(&root, prefix);  // Fill 'codes' with appropriate data
@@ -52,20 +53,20 @@ void CodeTree::buildCodeList(const Node *node, vector<char> &prefix) {
 	} else if (dynamic_cast<const Leaf*>(node) != nullptr) {
 		const Leaf *leaf = dynamic_cast<const Leaf*>(node);
 		if (leaf->symbol >= codes.size())
-			throw "Symbol exceeds symbol limit";
+			throw std::invalid_argument("Symbol exceeds symbol limit");
 		if (!codes.at(leaf->symbol).empty())
-			throw "Symbol has more than one code";
+			throw std::invalid_argument("Symbol has more than one code");
 		codes.at(leaf->symbol) = prefix;
 		
 	} else {
-		throw "Assertion error: Illegal node type";
+		throw std::logic_error("Assertion error: Illegal node type");
 	}
 }
 
 
 const vector<char> &CodeTree::getCode(uint32_t symbol) const {
 	if (codes.at(symbol).empty())
-		throw "No code for given symbol";
+		throw std::domain_error("No code for given symbol");
 	else
 		return codes.at(symbol);
 }

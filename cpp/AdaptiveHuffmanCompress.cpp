@@ -19,6 +19,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 #include <vector>
 #include "BitIoStream.hpp"
 #include "FrequencyTable.hpp"
@@ -57,7 +58,7 @@ int main(int argc, char *argv[]) {
 			if (symbol == EOF)
 				break;
 			if (symbol < 0 || symbol > 255)
-				throw "Assertion error";
+				throw std::logic_error("Assertion error");
 			enc.write(static_cast<uint32_t>(symbol));
 			count++;
 			
