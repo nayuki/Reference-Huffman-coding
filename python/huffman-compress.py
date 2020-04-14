@@ -15,7 +15,6 @@
 
 import contextlib, sys
 import huffmancoding
-python3 = sys.version_info.major >= 3
 
 
 # Command line main application function.
@@ -51,8 +50,7 @@ def get_frequencies(filepath):
 			b = input.read(1)
 			if len(b) == 0:
 				break
-			b = b[0] if python3 else ord(b)
-			freqs.increment(b)
+			freqs.increment(b[0])
 	return freqs
 
 
@@ -75,7 +73,7 @@ def compress(code, inp, bitout):
 		b = inp.read(1)
 		if len(b) == 0:
 			break
-		enc.write(b[0] if python3 else ord(b))
+		enc.write(b[0])
 	enc.write(256)  # EOF
 
 

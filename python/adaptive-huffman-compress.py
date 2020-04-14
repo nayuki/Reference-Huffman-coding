@@ -17,7 +17,6 @@
 
 import contextlib, sys
 import huffmancoding
-python3 = sys.version_info.major >= 3
 
 
 # Command line main application function.
@@ -44,12 +43,11 @@ def compress(inp, bitout):
 		symbol = inp.read(1)
 		if len(symbol) == 0:
 			break
-		symbol = symbol[0] if python3 else ord(symbol)
-		enc.write(symbol)
+		enc.write(symbol[0])
 		count += 1
 		
 		# Update the frequency table and possibly the code tree
-		freqs.increment(symbol)
+		freqs.increment(symbol[0])
 		if (count < 262144 and is_power_of_2(count)) or count % 262144 == 0:  # Update code tree
 			enc.codetree = freqs.build_code_tree()
 		if count % 262144 == 0:  # Reset frequency table
