@@ -13,7 +13,7 @@ python3 = sys.version_info.major >= 3
 # ---- Huffman coding core classes ----
 
 # Encodes symbols and writes to a Huffman-coded bit stream.
-class HuffmanEncoder(object):
+class HuffmanEncoder:
 	
 	# Constructs a Huffman encoder based on the given bit output stream.
 	def __init__(self, bitout):
@@ -36,7 +36,7 @@ class HuffmanEncoder(object):
 
 
 # Reads from a Huffman-coded bit stream and decodes symbols.
-class HuffmanDecoder(object):
+class HuffmanDecoder:
 	
 	# Constructs a Huffman decoder based on the given bit input stream.
 	def __init__(self, bitin):
@@ -72,7 +72,7 @@ class HuffmanDecoder(object):
 # from 0 to symbolLimit-1. A frequency table is mainly used like this:
 # 0. Collect the frequencies of symbols in the stream that we want to compress.
 # 1. Build a code tree that is statically optimal for the current frequencies.
-class FrequencyTable(object):
+class FrequencyTable:
 	
 	# Constructs a frequency table from the given sequence of frequencies.
 	# The sequence length must be at least 2, and each value must be non-negative.
@@ -186,7 +186,7 @@ class FrequencyTable(object):
 #       B   .
 #          / \
 #         C   D
-class CodeTree(object):
+class CodeTree:
 	
 	# Constructs a code tree from the given tree of nodes and given symbol limit.
 	# Each symbol in the tree must have value strictly less than the symbol limit.
@@ -242,7 +242,7 @@ class CodeTree(object):
 
 
 # A node in a code tree. This class has exactly two subclasses: InternalNode, Leaf.
-class Node(object):
+class Node:
 	pass
 
 
@@ -293,7 +293,7 @@ class Leaf(Node):
 #     Symbol C: None
 #     Symbol D: 10
 #     Symbol E: 111
-class CanonicalCode(object):
+class CanonicalCode:
 	
 	# Constructs a canonical code in one of two ways:
 	# - CanonicalCode(codelengths):
@@ -414,7 +414,7 @@ class CanonicalCode(object):
 
 # A stream of bits that can be read. Because they come from an underlying byte stream,
 # the total number of bits is always a multiple of 8. The bits are read in big endian.
-class BitInputStream(object):
+class BitInputStream:
 	
 	# Constructs a bit input stream based on the given byte input stream.
 	def __init__(self, inp):
@@ -464,7 +464,7 @@ class BitInputStream(object):
 # A stream where bits can be written to. Because they are written to an underlying
 # byte stream, the end of the stream is padded with 0's up to a multiple of 8 bits.
 # The bits are written in big endian.
-class BitOutputStream(object):
+class BitOutputStream:
 	
 	# Constructs a bit output stream based on the given byte output stream.
 	def __init__(self, out):
