@@ -11,7 +11,7 @@
  * A leaf node in a code tree. It has a symbol value. Immutable.
  * @see CodeTree
  */
-public final class Leaf extends Node {
+public final class Leaf implements Node {
 	
 	public final int symbol;  // Always non-negative
 	

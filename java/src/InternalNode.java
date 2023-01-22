@@ -13,7 +13,7 @@ import java.util.Objects;
  * An internal node in a code tree. It has two nodes as children. Immutable.
  * @see CodeTree
  */
-public final class InternalNode extends Node {
+public final class InternalNode implements Node {
 	
 	public final Node leftChild;  // Not null
 	

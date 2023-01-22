@@ -11,4 +11,4 @@
  * A node in a code tree.
  * @see CodeTree
  */
-public abstract sealed class Node permits InternalNode, Leaf {}
+public sealed interface Node permits InternalNode, Leaf {}
