@@ -17,6 +17,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
+#include <string>
 #include <vector>
 #include "BitIoStream.hpp"
 #include "CanonicalCode.hpp"
@@ -41,7 +42,7 @@ int main(int argc, char *argv[]) {
 	FrequencyTable freqs(std::vector<uint32_t>(257, 0));
 	while (true) {
 		int b = in.get();
-		if (b == EOF)
+		if (b == std::char_traits<char>::eof())
 			break;
 		if (b < 0 || b > 255)
 			throw std::logic_error("Assertion error");
@@ -77,7 +78,7 @@ int main(int argc, char *argv[]) {
 		while (true) {
 			// Read and encode one byte
 			int symbol = in.get();
-			if (symbol == EOF)
+			if (symbol == std::char_traits<char>::eof())
 				break;
 			if (symbol < 0 || symbol > 255)
 				throw std::logic_error("Assertion error");
