@@ -141,12 +141,11 @@ public final class CanonicalCode {
 	
 	// Recursive helper method for the above constructor.
 	private void buildCodeLengths(Node node, int depth) {
-		if (node instanceof InternalNode) {
-			InternalNode internalNode = (InternalNode)node;
+		if (node instanceof InternalNode internalNode) {
 			buildCodeLengths(internalNode.leftChild (), depth + 1);
 			buildCodeLengths(internalNode.rightChild(), depth + 1);
-		} else if (node instanceof Leaf) {
-			int symbol = ((Leaf)node).symbol();
+		} else if (node instanceof Leaf leaf) {
+			int symbol = leaf.symbol();
 			if (symbol >= codeLengths.length)
 				throw new IllegalArgumentException("Symbol exceeds symbol limit");
 			// Note: CodeTree already has a checked constraint that disallows a symbol in multiple leaves

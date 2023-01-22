@@ -64,10 +64,10 @@ public final class HuffmanDecoder {
 			else if (temp == 1) nextNode = currentNode.rightChild();
 			else throw new AssertionError("Invalid value from readNoEof()");
 			
-			if (nextNode instanceof Leaf)
-				return ((Leaf)nextNode).symbol();
-			else if (nextNode instanceof InternalNode)
-				currentNode = (InternalNode)nextNode;
+			if (nextNode instanceof Leaf leaf)
+				return leaf.symbol();
+			else if (nextNode instanceof InternalNode internalNode)
+				currentNode = internalNode;
 			else
 				throw new AssertionError("Illegal node type");
 		}

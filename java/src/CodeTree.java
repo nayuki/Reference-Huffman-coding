@@ -81,9 +81,7 @@ public final class CodeTree {
 	
 	// Recursive helper function for the constructor
 	private void buildCodeList(Node node, List<Integer> prefix) {
-		if (node instanceof InternalNode) {
-			InternalNode internalNode = (InternalNode)node;
-			
+		if (node instanceof InternalNode internalNode) {
 			prefix.add(0);
 			buildCodeList(internalNode.leftChild (), prefix);
 			prefix.remove(prefix.size() - 1);
@@ -92,8 +90,7 @@ public final class CodeTree {
 			buildCodeList(internalNode.rightChild(), prefix);
 			prefix.remove(prefix.size() - 1);
 			
-		} else if (node instanceof Leaf) {
-			Leaf leaf = (Leaf)node;
+		} else if (node instanceof Leaf leaf) {
 			if (leaf.symbol() >= codes.size())
 				throw new IllegalArgumentException("Symbol exceeds symbol limit");
 			if (codes.get(leaf.symbol()) != null)
@@ -140,12 +137,11 @@ public final class CodeTree {
 	
 	// Recursive helper function for toString()
 	private static void toString(String prefix, Node node, StringBuilder sb) {
-		if (node instanceof InternalNode) {
-			InternalNode internalNode = (InternalNode)node;
+		if (node instanceof InternalNode internalNode) {
 			toString(prefix + "0", internalNode.leftChild (), sb);
 			toString(prefix + "1", internalNode.rightChild(), sb);
-		} else if (node instanceof Leaf) {
-			sb.append(String.format("Code %s: Symbol %d%n", prefix, ((Leaf)node).symbol()));
+		} else if (node instanceof Leaf leaf) {
+			sb.append(String.format("Code %s: Symbol %d%n", prefix, leaf.symbol()));
 		} else {
 			throw new AssertionError("Illegal node type");
 		}
