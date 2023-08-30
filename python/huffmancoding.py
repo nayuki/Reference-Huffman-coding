@@ -133,7 +133,7 @@ class FrequencyTable:
 		# by which tree contains the lowest symbol. Thus the algorithm has a
 		# deterministic output and does not rely on the queue to break ties.
 		# Each item in the priority queue is a tuple of type (int frequency,
-		# int lowestSymbol, Node node). As per Python rules, tuples are ordered asceding
+		# int lowestSymbol, Node node). As per Python rules, tuples are ordered ascending
 		# by the lowest differing index, e.g. (0, 0) < (0, 1) < (0, 2) < (1, 0) < (1, 1).
 		pqueue = []
 		
@@ -169,6 +169,7 @@ class FrequencyTable:
 # The path to a leaf node determines the leaf's symbol's code. Starting from the root, going
 # to the left child represents a 0, and going to the right child represents a 1. Constraints:
 # - The root must be an internal node, and the tree is finite.
+# - Every internal node must have exactly two children nodes.
 # - No symbol value is found in more than one leaf.
 # - Not every possible symbol value needs to be in the tree.
 # Illustrated example:
@@ -193,8 +194,8 @@ class CodeTree:
 		# Recursive helper function
 		def build_code_list(node, prefix):
 			if isinstance(node, InternalNode):
-				build_code_list(node.leftchild , prefix + (0,))
-				build_code_list(node.rightchild, prefix + (1,))
+				build_code_list(node.leftchild , prefix + "0")
+				build_code_list(node.rightchild, prefix + "1")
 			elif isinstance(node, Leaf):
 				if node.symbol >= symbollimit:
 					raise ValueError("Symbol exceeds symbol limit")
@@ -209,9 +210,9 @@ class CodeTree:
 		# The root node of this code tree
 		self.root = root
 		# Stores the code for each symbol, or None if the symbol has no code.
-		# For example, if symbol 5 has code 10011, then codes[5] is the tuple (1,0,0,1,1).
+		# For example, if symbol 5 has code 10011, then codes[5] is the string "10011".
 		self.codes = [None] * symbollimit
-		build_code_list(root, ())  # Fill 'codes' with appropriate data
+		build_code_list(root, "")  # Fill 'codes' with appropriate data
 	
 	
 	# Returns the Huffman code for the given symbol, which is a sequence of 0s and 1s.
