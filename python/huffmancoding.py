@@ -133,7 +133,7 @@ class FrequencyTable:
 		# by which tree contains the lowest symbol. Thus the algorithm has a
 		# deterministic output and does not rely on the queue to break ties.
 		# Each item in the priority queue is a tuple of type (int frequency,
-		# int lowestSymbol, Node node). As per Python rules, tuples are ordered asceding
+		# int lowestSymbol, Node node). As per Python rules, tuples are ordered ascending
 		# by the lowest differing index, e.g. (0, 0) < (0, 1) < (0, 2) < (1, 0) < (1, 1).
 		pqueue = []
 		
