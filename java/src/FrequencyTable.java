@@ -175,6 +175,16 @@ public final class FrequencyTable {
 			long frequency)  // Using wider type prevents overflow
 		implements Comparable<NodeWithFrequency> {
 		
+		
+		public NodeWithFrequency {
+			Objects.requireNonNull(node);
+			if (lowestSymbol < 0)
+				throw new IllegalArgumentException();
+			if (frequency < 0)
+				throw new IllegalArgumentException();
+		}
+		
+		
 		// Sort by ascending frequency, breaking ties by ascending symbol value.
 		public int compareTo(NodeWithFrequency other) {
 			if (frequency != other.frequency)
