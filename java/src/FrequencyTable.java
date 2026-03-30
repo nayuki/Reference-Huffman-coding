@@ -177,16 +177,10 @@ public final class FrequencyTable {
 		
 		// Sort by ascending frequency, breaking ties by ascending symbol value.
 		public int compareTo(NodeWithFrequency other) {
-			if (frequency < other.frequency)
-				return -1;
-			else if (frequency > other.frequency)
-				return 1;
-			else if (lowestSymbol < other.lowestSymbol)
-				return -1;
-			else if (lowestSymbol > other.lowestSymbol)
-				return 1;
+			if (frequency != other.frequency)
+				return Long.compare(frequency, other.frequency);
 			else
-				return 0;
+				return Integer.compare(lowestSymbol, other.lowestSymbol);
 		}
 		
 	}
