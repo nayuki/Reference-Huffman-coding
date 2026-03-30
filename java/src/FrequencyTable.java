@@ -157,9 +157,9 @@ public final class FrequencyTable {
 			NodeWithFrequency x = pqueue.remove();
 			NodeWithFrequency y = pqueue.remove();
 			pqueue.add(new NodeWithFrequency(
-				new InternalNode(x.node, y.node),
-				Math.min(x.lowestSymbol, y.lowestSymbol),
-				x.frequency + y.frequency));
+				new InternalNode(x.node(), y.node()),
+				Math.min(x.lowestSymbol(), y.lowestSymbol()),
+				x.frequency() + y.frequency()));
 		}
 		
 		// Return the remaining node
@@ -169,19 +169,11 @@ public final class FrequencyTable {
 	
 	
 	// Helper structure for buildCodeTree()
-	private static class NodeWithFrequency implements Comparable<NodeWithFrequency> {
-		
-		public final Node node;
-		public final int lowestSymbol;
-		public final long frequency;  // Using wider type prevents overflow
-		
-		
-		public NodeWithFrequency(Node nd, int lowSym, long freq) {
-			node = nd;
-			lowestSymbol = lowSym;
-			frequency = freq;
-		}
-		
+	private record NodeWithFrequency(
+			Node node,
+			int lowestSymbol,
+			long frequency)  // Using wider type prevents overflow
+		implements Comparable<NodeWithFrequency> {
 		
 		// Sort by ascending frequency, breaking ties by ascending symbol value.
 		public int compareTo(NodeWithFrequency other) {
